@@ -330,9 +330,40 @@ local function stopNoclip()
     end
 end
 
+-- Speed command function
+local function setSpeed(speedValue)
+    local char = localPlayer.Character
+    if not char then return end
+    
+    local humanoid = char:FindFirstChild("Humanoid")
+    if not humanoid then return end
+    
+    -- Convert speed value to number
+    local newSpeed = tonumber(speedValue)
+    
+    -- Validate speed value
+    if not newSpeed then
+        print("Please enter a valid number!")
+        return
+    end
+    
+    -- Set speed with limits
+    newSpeed = math.clamp(newSpeed, 0, 500)
+    humanoid.WalkSpeed = newSpeed
+    print("Speed set to: " .. newSpeed)
+end
+
 -- Command Handler
 local function handleCommand(command)
+    if typeof(command) ~= "string" then return end
+    
     command = command:lower()
+    
+    if command:sub(1, 7) == ".speed " then
+        local speedValue = command:sub(8) -- Get value after ".speed "
+        setSpeed(speedValue)
+        return
+    end
     
     if command == ".fly" then
         if flying then
@@ -358,15 +389,6 @@ local function handleCommand(command)
             removeAirwalkPlatform()
         else
             createAirwalkPlatform()
-        end
-        
-    elseif command:sub(1, 6) == ".speed " then
-        local speedValue = tonumber(command:sub(7))
-        if speedValue then
-            local char = localPlayer.Character
-            if char and char:FindFirstChild("Humanoid") then
-                char.Humanoid.WalkSpeed = speedValue
-            end
         end
     end
 end
