@@ -1,0 +1,442 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local localPlayer = Players.LocalPlayer
+
+-- Whitelist System
+local whitelisted = {
+    "Dxan_PlayS",
+    -- Add more whitelisted users here
+}
+
+-- Admin list (these can use /bring)
+local admins = {
+    "Dxan_PlayS"
+}
+
+-- Check whitelist
+local function isWhitelisted(player)
+    return table.find(whitelisted, player.Name) ~= nil
+end
+
+-- Whitelist check on script start
+if not isWhitelisted(localPlayer) then
+    localPlayer:Kick("\nNot Whitelisted\nContact Dxan_PlayS for whitelist")
+    return
+end
+
+-- Variables
+local flying = false
+local noclipping = false
+local airwalking = false
+local defaultWalkSpeed = 16
+local flySpeed = 2
+local airwalkPlatform = nil
+local flyConnection = nil
+
+-- Function to check if a player is an admin
+local function isAdmin(player)
+    if not player then return false end
+    return table.find(admins, player.Name) ~= nil
+end
+
+-- Enhanced Flying System
+local function startFlying()
+    if flying then return end
+    
+    local char = localPlayer.Character
+    if not char or not char:FindFirstChild("Humanoid") then return end
+    
+    flying = true
+    local humanoid = char.Humanoid
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    
+    -- Disable animations
+    humanoid.PlatformStand = true
+    
+    -- Create fly parts
+    local bv = Instance.new("BodyVelocity")
+    bv.Name = "FlyVelocity"
+    bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+    bv.Velocity = Vector3.new(0, 0, 0)
+    bv.Parent = hrp
+    
+    local bg = Instance.new("BodyGyro")
+    bg.Name = "FlyGyro"
+    bg.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
+    bg.P = 1000
+    bg.Parent = hrp
+    
+    -- Flying update
+    if flyConnection then flyConnection:Disconnect() end
+    
+    flyConnection = RunService.RenderStepped:Connect(function()
+        if not flying then return end
+        
+        local moveDir = Vector3.new(0, 0, 0)
+        local cf = workspace.CurrentCamera.CFrame
+        
+        -- Movement controls
+        if UserInputService:IsKeyDown(Enum.KeyCode.W) then
+            moveDir = moveDir + cf.LookVector
+        end
+        if UserInputService:IsKeyDown(Enum.KeyCode.S) then
+            moveDir = moveDir - cf.LookVector
+        end
+        if UserInputService:IsKeyDown(Enum.KeyCode.A) then
+            moveDir = moveDir - cf.RightVector
+        end
+        if UserInputService:IsKeyDown(Enum.KeyCode.D) then
+            moveDir = moveDir + cf.RightVector
+        end
+        if UserInputService:IsKeyDown(Enum.KeyCode.Space) then
+            moveDir = moveDir + Vector3.new(0, 1, 0)
+        end
+        if UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
+            moveDir = moveDir - Vector3.new(0, 1, 0)
+        end
+        
+        -- Apply movement
+        if moveDir.Magnitude > 0 then
+            bv.Velocity = moveDir.Unit * (flySpeed * 50)
+        else
+            bv.Velocity = Vector3.new(0, 0, 0)
+        end
+        
+        bg.CFrame = cf
+    end)
+end
+
+local function stopFlying()
+    if not flying then return end
+    
+    local char = localPlayer.Character
+    if not char then return end
+    
+    flying = false
+    
+    if flyConnection then
+        flyConnection:Disconnect()
+        flyConnection = nil
+    end
+    
+    local humanoid = char:FindFirstChild("Humanoid")
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    
+    if humanoid then
+        humanoid.PlatformStand = false
+    end
+    
+    if hrp then
+        local bv = hrp:FindFirstChild("FlyVelocity")
+        local bg = hrp:FindFirstChild("FlyGyro")
+        if bv then bv:Destroy() end
+        if bg then bg:Destroy() end
+    end
+end
+
+-- Simple Airwalk Platform
+local function createAirwalkPlatform()
+    if airwalkPlatform then return end
+    
+    local char = localPlayer.Character
+    if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+    
+    airwalking = true
+    
+    -- Create platform
+    airwalkPlatform = Instance.new("Part")
+    airwalkPlatform.Size = Vector3.new(6, 1, 6)
+    airwalkPlatform.Transparency = 1
+    airwalkPlatform.Anchored = true
+    airwalkPlatform.CanCollide = true
+    airwalkPlatform.Name = "AirwalkPlatform"
+    
+    -- Update platform position
+    RunService:BindToRenderStep("Airwalk", Enum.RenderPriority.Character.Value, function()
+        if not airwalking or not char:FindFirstChild("HumanoidRootPart") then return end
+        airwalkPlatform.CFrame = char.HumanoidRootPart.CFrame * CFrame.new(0, -3.1, 0)
+    end)
+    
+    airwalkPlatform.Parent = workspace
+end
+
+local function removeAirwalkPlatform()
+    if airwalkPlatform then
+        RunService:UnbindFromRenderStep("Airwalk")
+        airwalkPlatform:Destroy()
+        airwalkPlatform = nil
+    end
+    airwalking = false
+end
+
+-- Noclip Function
+local function startNoclip()
+    if noclipping then return end
+    noclipping = true
+    
+    RunService:BindToRenderStep("Noclip", Enum.RenderPriority.Character.Value, function()
+        local char = localPlayer.Character
+        if char then
+            for _, part in ipairs(char:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = false
+                end
+            end
+        end
+    end)
+end
+
+local function stopNoclip()
+    if not noclipping then return end
+    noclipping = false
+    RunService:UnbindFromRenderStep("Noclip")
+    
+    local char = localPlayer.Character
+    if char then
+        for _, part in ipairs(char:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = true
+            end
+        end
+    end
+end
+
+-- Command Handler
+local function handleCommand(command)
+    command = command:lower()
+    
+    if command == "/fly" then
+        if not flying then
+            startFlying()
+        end
+    elseif command == "/unfly" then
+        if flying then
+            stopFlying()
+        end
+        
+    elseif command == "/noclip" then
+        if noclipping then
+            stopNoclip()
+        else
+            startNoclip()
+        end
+        
+    elseif command == "/airwalk" then
+        if airwalking then
+            removeAirwalkPlatform()
+        else
+            createAirwalkPlatform()
+        end
+        
+    elseif command:sub(1, 6) == "/speed " then
+        local speedValue = tonumber(command:sub(7))
+        if speedValue then
+            local char = localPlayer.Character
+            if char and char:FindFirstChild("Humanoid") then
+                char.Humanoid.WalkSpeed = speedValue
+            end
+        end
+    end
+end
+
+-- Create Professional GUI with Tween Intro
+local function createGUI()
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "AdminGUI"
+    screenGui.ResetOnSpawn = false
+    
+    -- Create background frame for intro
+    local introFrame = Instance.new("Frame")
+    introFrame.Size = UDim2.new(1, 0, 1, 0)
+    introFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    introFrame.BackgroundTransparency = 0
+    introFrame.Parent = screenGui
+    
+    -- Create verification text
+    local verifyText = Instance.new("TextLabel")
+    verifyText.Size = UDim2.new(0, 300, 0, 40)
+    verifyText.Position = UDim2.new(0.5, -150, 0.3, -20)
+    verifyText.BackgroundTransparency = 1
+    verifyText.TextColor3 = Color3.fromRGB(0, 255, 0)
+    verifyText.TextSize = 24
+    verifyText.Font = Enum.Font.GothamBold
+    verifyText.Text = "Whitelist Verified"
+    verifyText.TextTransparency = 1
+    verifyText.Parent = introFrame
+    
+    -- Create logo text
+    local logoText = Instance.new("TextLabel")
+    logoText.Size = UDim2.new(0, 300, 0, 60)
+    logoText.Position = UDim2.new(0.5, -150, 0.4, -30)
+    logoText.BackgroundTransparency = 1
+    logoText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    logoText.TextSize = 40
+    logoText.Font = Enum.Font.GothamBold
+    logoText.Text = "Admin System"
+    logoText.TextTransparency = 1
+    logoText.Parent = introFrame
+    
+    -- Create subtitle text
+    local subtitleText = Instance.new("TextLabel")
+    subtitleText.Size = UDim2.new(0, 200, 0, 30)
+    subtitleText.Position = UDim2.new(0.5, -100, 0.4, 30)
+    subtitleText.BackgroundTransparency = 1
+    subtitleText.TextColor3 = Color3.fromRGB(200, 200, 200)
+    subtitleText.TextSize = 18
+    subtitleText.Font = Enum.Font.GothamMedium
+    subtitleText.Text = "Checking whitelist..."
+    subtitleText.TextTransparency = 1
+    subtitleText.Parent = introFrame
+    
+    -- Create command bar frame
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 250, 0, 40)
+    frame.Position = UDim2.new(0.5, -125, 1.2, -20) -- Start below screen
+    frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    frame.BackgroundTransparency = 0.2
+    frame.BorderSizePixel = 0
+    frame.Parent = screenGui
+    
+    -- Add glow effect
+    local glow = Instance.new("ImageLabel")
+    glow.Size = UDim2.new(1.2, 0, 1.2, 0)
+    glow.Position = UDim2.new(-0.1, 0, -0.1, 0)
+    glow.BackgroundTransparency = 1
+    glow.Image = "rbxassetid://5028857084"
+    glow.ImageColor3 = Color3.fromRGB(255, 255, 255)
+    glow.ImageTransparency = 0.8
+    glow.Parent = frame
+    
+    -- Add corners
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 6)
+    corner.Parent = frame
+    
+    -- Create command bar
+    local commandBar = Instance.new("TextBox")
+    commandBar.Size = UDim2.new(1, -20, 1, -10)
+    commandBar.Position = UDim2.new(0, 10, 0, 5)
+    commandBar.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    commandBar.BackgroundTransparency = 0.3
+    commandBar.BorderSizePixel = 0
+    commandBar.TextColor3 = Color3.fromRGB(255, 255, 255)
+    commandBar.TextSize = 14
+    commandBar.PlaceholderText = "Enter command..."
+    commandBar.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
+    commandBar.Text = ""
+    commandBar.Font = Enum.Font.GothamMedium
+    commandBar.Parent = frame
+    
+    local barCorner = Instance.new("UICorner")
+    barCorner.CornerRadius = UDim.new(0, 4)
+    barCorner.Parent = commandBar
+    
+    -- Intro animation sequence
+    screenGui.Parent = localPlayer:WaitForChild("PlayerGui")
+    
+    -- Fade in verification
+    local tweenInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    local verifyTween = TweenService:Create(verifyText, tweenInfo, {TextTransparency = 0})
+    verifyTween:Play()
+    wait(1)
+    
+    -- Fade in logo
+    local logoTween = TweenService:Create(logoText, tweenInfo, {TextTransparency = 0})
+    logoTween:Play()
+    
+    -- Fade in subtitle
+    wait(0.5)
+    subtitleText.Text = "Welcome, " .. localPlayer.Name
+    local subtitleTween = TweenService:Create(subtitleText, tweenInfo, {TextTransparency = 0})
+    subtitleTween:Play()
+    
+    -- Wait and fade out everything
+    wait(2)
+    local fadeOut = TweenService:Create(introFrame, TweenInfo.new(0.5), {BackgroundTransparency = 1})
+    local textFadeOut = TweenService:Create(logoText, TweenInfo.new(0.5), {TextTransparency = 1})
+    local subtitleFadeOut = TweenService:Create(subtitleText, TweenInfo.new(0.5), {TextTransparency = 1})
+    local verifyFadeOut = TweenService:Create(verifyText, TweenInfo.new(0.5), {TextTransparency = 1})
+    
+    fadeOut:Play()
+    textFadeOut:Play()
+    subtitleFadeOut:Play()
+    verifyFadeOut:Play()
+    
+    -- Slide in command bar
+    wait(0.5)
+    local slideTween = TweenService:Create(frame, TweenInfo.new(0.8, Enum.EasingStyle.Back), {
+        Position = UDim2.new(0.5, -125, 0.85, -20)
+    })
+    slideTween:Play()
+    
+    -- Clean up intro elements
+    wait(1)
+    introFrame:Destroy()
+    
+    return commandBar, frame
+end
+
+-- Create GUI and get command bar
+local commandBar, mainFrame = createGUI()
+
+-- Command Bar Input
+commandBar.FocusLost:Connect(function(enterPressed)
+    if enterPressed then
+        local command = commandBar.Text
+        commandBar.Text = ""
+        handleCommand(command)
+    end
+end)
+
+-- Chat Commands
+localPlayer.Chatted:Connect(handleCommand)
+
+-- Bring Command Handler
+local function handleBringCommand(player, message)
+    if not isAdmin(player) then return end
+    
+    if message:sub(1, 6):lower() == "/bring " then
+        local targetName = message:sub(7):lower()
+        local localName = localPlayer.Name:lower()
+        local localDisplayName = localPlayer.DisplayName:lower()
+        
+        if localName:find(targetName) or localDisplayName:find(targetName) then
+            local char = localPlayer.Character
+            local adminChar = player.Character
+            if char and adminChar then
+                local hrp = char:FindFirstChild("HumanoidRootPart")
+                local adminHrp = adminChar:FindFirstChild("HumanoidRootPart")
+                if hrp and adminHrp then
+                    hrp.CFrame = adminHrp.CFrame * CFrame.new(0, 0, 2)
+                end
+            end
+        end
+    end
+end
+
+-- Connect bring command
+for _, player in ipairs(Players:GetPlayers()) do
+    if player ~= localPlayer then
+        player.Chatted:Connect(function(message)
+            handleBringCommand(player, message)
+        end)
+    end
+end
+
+Players.PlayerAdded:Connect(function(player)
+    player.Chatted:Connect(function(message)
+        handleBringCommand(player, message)
+    end)
+end)
+
+-- Cleanup on character respawn
+localPlayer.CharacterAdded:Connect(function()
+    if flying then stopFlying() end
+    if noclipping then stopNoclip() end
+    if airwalking then removeAirwalkPlatform() end
+end)
+
+-- Print confirmation
+print("Admin script loaded for " .. localPlayer.Name)
