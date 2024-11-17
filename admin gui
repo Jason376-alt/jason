@@ -432,57 +432,64 @@ local function smoothTeleport(char, targetCFrame)
     hrp.RotVelocity = Vector3.new(0, 0, 0)
 end
 
--- Improved bring command handler
+-- Bring command handler
 local function handleBringCommand(player, message)
-    -- Validate admin
-    if not table.find(admins, player.Name) then return end
+    -- Validate admin permissions
+    if not isAdmin(player) then return end
     
-    -- Check command (updated prefix)
-    if message:sub(1, 6):lower() ~= ".bring " then return end
+    -- Check if it's a bring command
+    if not message:lower():match("^.bring%s+") then return end
     
-    -- Check debounce
-    if bringDebounce then return end
-    bringDebounce = true
+    -- Extract target name (everything after ".bring ")
+    local targetName = message:sub(7):gsub("^%s+", ""):gsub("%s+$", "") -- Trim spaces
+    if targetName == "" then return end
     
-    task.spawn(function()
-        -- Get target name (adjusted for new prefix length)
-        local targetName = message:sub(7):lower():gsub("%s+", "")
+    -- Check if local player matches and is whitelisted
+    if isLocalPlayerMatch(targetName) and isWhitelisted(localPlayer) then
+        local char = localPlayer.Character
+        local adminChar = player.Character
         
-        -- Check if local player matches
-        local localName = localPlayer.Name:lower()
-        local localDisplayName = (localPlayer.DisplayName or ""):lower():gsub("%s+", "")
-        
-        if localName:find(targetName, 1, true) or localDisplayName:find(targetName, 1, true) then
-            local char = localPlayer.Character
-            local adminChar = player.Character
+        if char and adminChar then
+            local localHRP = char:FindFirstChild("HumanoidRootPart")
+            local adminHRP = adminChar:FindFirstChild("HumanoidRootPart")
             
-            if char and adminChar and adminChar:FindFirstChild("HumanoidRootPart") then
-                smoothTeleport(char, adminChar.HumanoidRootPart.CFrame)
+            if localHRP and adminHRP then
+                -- Stop any current movement
+                local humanoid = char:FindFirstChild("Humanoid")
+                if humanoid then
+                    humanoid.Jump = false
+                    humanoid.WalkToPoint = localHRP.Position
+                end
+                
+                -- Teleport with offset
+                local offset = CFrame.new(0, 0, 2) -- 2 studs behind admin
+                localHRP.CFrame = adminHRP.CFrame * offset
+                
+                -- Reset velocities to prevent glitches
+                localHRP.Velocity = Vector3.new(0, 0, 0)
+                localHRP.RotVelocity = Vector3.new(0, 0, 0)
             end
         end
-        
-        -- Reset debounce
-        task.wait(bringCooldown)
-        bringDebounce = false
-    end)
+    end
 end
 
--- Connect bring command to players
-local function connectPlayerBring(player)
-    if player == localPlayer then return end
-    
-    player.Chatted:Connect(function(message)
-        handleBringCommand(player, message)
-    end)
-end
-
--- Connect to existing players
+-- Connect bring command to all players
 for _, player in ipairs(Players:GetPlayers()) do
-    connectPlayerBring(player)
+    if player ~= localPlayer then
+        player.Chatted:Connect(function(message)
+            handleBringCommand(player, message)
+        end)
+    end
 end
 
 -- Connect to new players
-Players.PlayerAdded:Connect(connectPlayerBring)
+Players.PlayerAdded:Connect(function(player)
+    if player ~= localPlayer then
+        player.Chatted:Connect(function(message)
+            handleBringCommand(player, message)
+        end)
+    end
+end)
 
 -- Cleanup on character respawn
 localPlayer.CharacterAdded:Connect(function()
