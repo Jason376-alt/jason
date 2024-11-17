@@ -15,7 +15,6 @@ local whitelisted = {
 -- Admin list (these can use /bring)
 local admins = {
     "Dxan_PlayS",
-    "Xeni_he07",
 }
 
 -- Check whitelist
