@@ -7,7 +7,8 @@ local localPlayer = Players.LocalPlayer
 -- Admin and whitelist configuration
 local admins = {
   "Dxan_PlayS",
-  "Xeni_he07"  -- Add admin usernames here
+  "Xeni_he07",  -- Add admin usernames here
+  "Jasper200913"
 }
 
 local whitelisted = {
