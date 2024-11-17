@@ -7,12 +7,14 @@ local localPlayer = Players.LocalPlayer
 -- Whitelist System
 local whitelisted = {
     "Dxan_PlayS",
+    "Xeni_he07"
     -- Add more whitelisted users here
 }
 
 -- Admin list (these can use /bring)
 local admins = {
-    "Dxan_PlayS"
+    "Dxan_PlayS",
+    "Xeni_he07"
 }
 
 -- Check whitelist
