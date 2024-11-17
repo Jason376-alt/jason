@@ -37,6 +37,8 @@ local defaultWalkSpeed = 16
 local flySpeed = 2
 local airwalkPlatform = nil
 local flyConnection = nil
+local bringDebounce = false
+local bringCooldown = 0.5 -- Reduced cooldown for better response
 
 -- Function to check if a player is an admin
 local function isAdmin(player)
@@ -210,30 +212,33 @@ end
 local function handleCommand(command)
     command = command:lower()
     
-    if command == "/fly" then
-        if not flying then
+    if command == ".fly" then
+        if flying then
+            stopFlying()
+        else
             startFlying()
         end
-    elseif command == "/unfly" then
+        
+    elseif command == ".unfly" then
         if flying then
             stopFlying()
         end
         
-    elseif command == "/noclip" then
+    elseif command == ".noclip" then
         if noclipping then
             stopNoclip()
         else
             startNoclip()
         end
         
-    elseif command == "/airwalk" then
+    elseif command == ".airwalk" then
         if airwalking then
             removeAirwalkPlatform()
         else
             createAirwalkPlatform()
         end
         
-    elseif command:sub(1, 6) == "/speed " then
+    elseif command:sub(1, 6) == ".speed " then
         local speedValue = tonumber(command:sub(7))
         if speedValue then
             local char = localPlayer.Character
@@ -326,7 +331,7 @@ local function createGUI()
     commandBar.BorderSizePixel = 0
     commandBar.TextColor3 = Color3.fromRGB(255, 255, 255)
     commandBar.TextSize = 14
-    commandBar.PlaceholderText = "Enter command..."
+    commandBar.PlaceholderText = "Enter command... (prefix: .)"
     commandBar.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
     commandBar.Text = ""
     commandBar.Font = Enum.Font.GothamMedium
@@ -396,46 +401,92 @@ end)
 -- Chat Commands
 localPlayer.Chatted:Connect(handleCommand)
 
--- Bring Command Handler
-local function handleBringCommand(player, message)
-    if not isAdmin(player) then return end
+-- Improved bring function with smooth teleport
+local function smoothTeleport(char, targetCFrame)
+    if not char or not char:FindFirstChild("HumanoidRootPart") then return end
     
-    if message:sub(1, 6):lower() == "/bring " then
-        local targetName = message:sub(7):lower()
-        local localName = localPlayer.Name:lower()
-        local localDisplayName = localPlayer.DisplayName:lower()
+    -- Stop any existing character movement
+    local humanoid = char:FindFirstChild("Humanoid")
+    if humanoid then
+        humanoid.Jump = false
+        humanoid.WalkToPoint = char.HumanoidRootPart.Position
+    end
+    
+    -- Calculate offset (2 studs behind and to the right of the target)
+    local offset = CFrame.new(2, 0, 2)
+    local targetPos = targetCFrame * offset
+    
+    -- Create smooth tween
+    local hrp = char.HumanoidRootPart
+    local tween = TweenService:Create(hrp, 
+        TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+        {CFrame = targetPos}
+    )
+    
+    -- Play tween and reset physics
+    tween:Play()
+    tween.Completed:Wait()
+    
+    -- Reset velocity
+    hrp.Velocity = Vector3.new(0, 0, 0)
+    hrp.RotVelocity = Vector3.new(0, 0, 0)
+end
+
+-- Improved bring command handler
+local function handleBringCommand(player, message)
+    -- Validate admin
+    if not table.find(admins, player.Name) then return end
+    
+    -- Check command (updated prefix)
+    if message:sub(1, 6):lower() ~= ".bring " then return end
+    
+    -- Check debounce
+    if bringDebounce then return end
+    bringDebounce = true
+    
+    task.spawn(function()
+        -- Get target name (adjusted for new prefix length)
+        local targetName = message:sub(7):lower():gsub("%s+", "")
         
-        if localName:find(targetName) or localDisplayName:find(targetName) then
+        -- Check if local player matches
+        local localName = localPlayer.Name:lower()
+        local localDisplayName = (localPlayer.DisplayName or ""):lower():gsub("%s+", "")
+        
+        if localName:find(targetName, 1, true) or localDisplayName:find(targetName, 1, true) then
             local char = localPlayer.Character
             local adminChar = player.Character
-            if char and adminChar then
-                local hrp = char:FindFirstChild("HumanoidRootPart")
-                local adminHrp = adminChar:FindFirstChild("HumanoidRootPart")
-                if hrp and adminHrp then
-                    hrp.CFrame = adminHrp.CFrame * CFrame.new(0, 0, 2)
-                end
+            
+            if char and adminChar and adminChar:FindFirstChild("HumanoidRootPart") then
+                smoothTeleport(char, adminChar.HumanoidRootPart.CFrame)
             end
         end
-    end
+        
+        -- Reset debounce
+        task.wait(bringCooldown)
+        bringDebounce = false
+    end)
 end
 
--- Connect bring command
-for _, player in ipairs(Players:GetPlayers()) do
-    if player ~= localPlayer then
-        player.Chatted:Connect(function(message)
-            handleBringCommand(player, message)
-        end)
-    end
-end
-
-Players.PlayerAdded:Connect(function(player)
+-- Connect bring command to players
+local function connectPlayerBring(player)
+    if player == localPlayer then return end
+    
     player.Chatted:Connect(function(message)
         handleBringCommand(player, message)
     end)
-end)
+end
+
+-- Connect to existing players
+for _, player in ipairs(Players:GetPlayers()) do
+    connectPlayerBring(player)
+end
+
+-- Connect to new players
+Players.PlayerAdded:Connect(connectPlayerBring)
 
 -- Cleanup on character respawn
 localPlayer.CharacterAdded:Connect(function()
+    bringDebounce = false
     if flying then stopFlying() end
     if noclipping then stopNoclip() end
     if airwalking then removeAirwalkPlatform() end
