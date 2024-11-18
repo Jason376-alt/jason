@@ -19,7 +19,8 @@ local whitelisted = {
    "Dxan_PlayS",
    "7KValnano_30485",
    "Montanablack_107",
-   "Benniboy123321"
+   "Benniboy123321",
+   "checkercarlo"
     -- Add whitelisted users here
 }
 
