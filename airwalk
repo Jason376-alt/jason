@@ -1,0 +1,118 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local PlayerGui = player:WaitForChild("PlayerGui")
+
+local baseplate = Instance.new("Part")
+baseplate.Name = "InvisibleBaseplate"
+baseplate.Size = Vector3.new(2048, 1, 2048)
+baseplate.Position = Vector3.new(0, 0, 0)
+baseplate.Transparency = 1
+baseplate.Anchored = true
+baseplate.CanCollide = true
+baseplate.Parent = workspace
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "ToggleButtonGui"
+screenGui.Parent = PlayerGui
+
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0, 80, 0, 30)
+toggleButton.Position = UDim2.new(0.5, -40, 0.1, 0)
+toggleButton.Text = "Airwalk"
+toggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.Font = Enum.Font.GothamBold
+toggleButton.TextSize = 16
+toggleButton.BorderSizePixel = 0
+toggleButton.BackgroundTransparency = 0.3
+toggleButton.AutoButtonColor = false
+toggleButton.Parent = screenGui
+
+local shadow = Instance.new("Frame")
+shadow.Size = UDim2.new(1, 0, 1, 0)
+shadow.Position = UDim2.new(0, 0, 0, 0)
+shadow.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+shadow.BackgroundTransparency = 0.5
+shadow.Parent = toggleButton
+shadow.ZIndex = -1
+
+local airwalking = false
+
+local function maintainPlayerHeight()
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+    while true do
+        wait(0.1)
+
+        if humanoidRootPart then
+            local playerPosition = humanoidRootPart.Position
+
+            local baseplateSize = baseplate.Size
+            local baseplatePosition = baseplate.Position
+
+            local minX = baseplatePosition.X - baseplateSize.X / 2
+            local maxX = baseplatePosition.X + baseplateSize.X / 2
+            local minZ = baseplatePosition.Z - baseplateSize.Z / 2
+            local maxZ = baseplatePosition.Z + baseplateSize.Z / 2
+
+            if playerPosition.X < minX or playerPosition.X > maxX or playerPosition.Z < minZ or playerPosition.Z > maxZ then
+                humanoidRootPart.Position = Vector3.new(playerPosition.X, playerPosition.Y, playerPosition.Z)
+            end
+        end
+    end
+end
+
+local function toggleAirwalk()
+    airwalking = not airwalking
+
+    if airwalking then
+        toggleButton.Text = "Unairwalk"
+    else
+        toggleButton.Text = "Airwalk"
+        baseplate:Destroy()
+        return
+    end
+
+    if not baseplate:IsDescendantOf(workspace) then
+        baseplate = Instance.new("Part")
+        baseplate.Name = "InvisibleBaseplate"
+        baseplate.Size = Vector3.new(2048, 1, 2048)
+        baseplate.Position = Vector3.new(0, 0, 0)
+        baseplate.Transparency = 1
+        baseplate.Anchored = true
+        baseplate.CanCollide = true
+        baseplate.Parent = workspace
+    end
+end
+
+toggleButton.MouseButton1Click:Connect(toggleAirwalk)
+
+local dragging = false
+local dragStart, startPos
+
+local function onInputBegan(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = toggleButton.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end
+
+local function onInputChanged(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - dragStart
+        toggleButton.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end
+
+toggleButton.InputBegan:Connect(onInputBegan)
+toggleButton.InputChanged:Connect(onInputChanged)
+
+maintainPlayerHeight()
