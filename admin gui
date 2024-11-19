@@ -360,11 +360,38 @@ local function setSpeed(speedValue)
     print("Speed set to: " .. newSpeed)
 end
 
+-- Command URL table
+local commandURLs = {
+    airwalk = "https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/airwalk"
+    -- Add more commands and URLs here
+}
+
+-- Function to execute a script from a URL
+local function executeScriptFromURL(url)
+    local success, result = pcall(function()
+        return game:HttpGet(url)
+    end)
+    
+    if success then
+        loadstring(result)()
+    else
+        warn("Failed to load script from URL: " .. url)
+    end
+end
+
 -- Command Handler
 local function handleCommand(command)
     if typeof(command) ~= "string" then return end
     
     command = command:lower()
+    
+    -- Check if command is in the commandURLs table
+    for cmd, url in pairs(commandURLs) do
+        if command == "." .. cmd then
+            executeScriptFromURL(url)
+            return
+        end
+    end
     
     if command:sub(1, 7) == ".speed " then
         local speedValue = command:sub(8) -- Get value after ".speed "
@@ -389,13 +416,6 @@ local function handleCommand(command)
             stopNoclip()
         else
             startNoclip()
-        end
-        
-    elseif command == ".airwalk" then
-        if airwalking then
-            removeAirwalkPlatform()
-        else
-            createAirwalkPlatform()
         end
     end
 end
@@ -433,7 +453,7 @@ local function createGUI()
     logoText.TextColor3 = Color3.fromRGB(255, 255, 255)
     logoText.TextSize = 40
     logoText.Font = Enum.Font.GothamBold
-    logoText.Text = "Admin System"
+    logoText.Text = "Jason Admin"
     logoText.TextTransparency = 1
     logoText.Parent = introFrame
     
