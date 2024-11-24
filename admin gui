@@ -13,7 +13,6 @@ local admins = {
   "Benniboy123321",
   "jordan_jayden1087",
   "I_LOVEYOU12210"
-  "082Haze",
 }
 
 local whitelisted = {
@@ -26,7 +25,6 @@ local whitelisted = {
    "checkercarlo",
    "jordan_jayden1087"
    "I_LOVEYOU12210"
-   "082Haze"
     -- Add whitelisted users here
 }
 
