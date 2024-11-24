@@ -1,4 +1,3 @@
-
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -8,12 +7,14 @@ local localPlayer = Players.LocalPlayer
 -- Admin and whitelist configuration
 local admins = {
   "Dxan_PlayS",
-  "Xeni_he07"  -- Add admin usernames here
+  "Xeni_he07",
+  "ichmagnicht0" -- Add admin usernames here
 }
 
 local whitelisted = {
   "Dxan_PlayS",
-  "Xeni_he07"  -- Add admin usernames here
+  "Xeni_he07"
+  "ichmagnicht0" -- Add admin usernames here
    
     -- Add whitelisted users here
 }
@@ -361,24 +362,37 @@ local commandURLs = {
     -- Add more commands and URLs here
 }
 
--- Function to execute a script from a URL
+-- Function to execute a script from a URL using HttpGetAsync
 local function executeScriptFromURL(url)
     local success, result = pcall(function()
-        return game:HttpGet(url)
+        return game:HttpGetAsync(url)
     end)
     
     if success then
-        loadstring(result)()
+        local loadSuccess, loadError = pcall(function()
+            loadstring(result)()
+        end)
+        
+        if not loadSuccess then
+            warn("Failed to execute script: " .. loadError)
+        end
     else
         warn("Failed to load script from URL: " .. url)
     end
 end
+
+-- Example usage
+executeScriptFromURL("https://raw.githubusercontent.com/Gi7331/scripts/main/Emote.lua")
 
 -- Command Handler
 local function handleCommand(command)
     if typeof(command) ~= "string" then return end
     
     command = command:lower()
+    
+    if command == ".tripspeed" then
+        executeScriptFromURL("https://raw.githubusercontent.com/saya420/Mic-Up/main/Flashback-Rewind")
+    end
     
     -- Check if command is in the commandURLs table
     for cmd, url in pairs(commandURLs) do
