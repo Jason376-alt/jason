@@ -1,3 +1,4 @@
+
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -7,24 +8,13 @@ local localPlayer = Players.LocalPlayer
 -- Admin and whitelist configuration
 local admins = {
   "Dxan_PlayS",
-  "Xeni_he07",  -- Add admin usernames here
-  "Jasper200913",
-  "Montanablack_107",
-  "Benniboy123321",
-  "jordan_jayden1087",
-  "I_LOVEYOU12210"
+  "Xeni_he07"  -- Add admin usernames here
 }
 
 local whitelisted = {
-   "Jasper200913",
-   "Xeni_he07",
-   "Dxan_PlayS",
-   "7KValnano_30485",
-   "Montanablack_107",
-   "Benniboy123321",
-   "checkercarlo",
-   "jordan_jayden1087"
-   "I_LOVEYOU12210"
+  "Dxan_PlayS",
+  "Xeni_he07"  -- Add admin usernames here
+   
     -- Add whitelisted users here
 }
 
