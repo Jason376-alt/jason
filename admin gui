@@ -13,7 +13,7 @@ local admins = {
 
 local whitelisted = {
   "Dxan_PlayS",
-  "Xeni_he07"
+  "Xeni_he07",
   "ichmagnicht0" -- Add admin usernames here
    
     -- Add whitelisted users here
