@@ -364,10 +364,10 @@ local commandURLs = {
     -- Add more commands and URLs here
 }
 
--- Function to execute a script from a URL using HttpGetAsync
+-- Function to execute a script from a URL using HttpGet
 local function executeScriptFromURL(url)
     local success, result = pcall(function()
-        return game:HttpGetAsync(url)
+        return game:HttpGet(url)
     end)
     
     if success then
@@ -624,3 +624,20 @@ end)
 
 -- Print confirmation
 print("Admin script loaded for " .. localPlayer.Name)
+
+-- Command Handler Update
+local function handleCommand(command)
+    if typeof(command) ~= "string" then return end
+
+    command = command:lower()
+
+    if command == ".iy" then
+        executeScriptFromURL("https://raw.githubusercontent.com/DarkNetworks/Infinite-Yield/main/latest.lua")
+    end
+
+    -- Other command handling logic...
+end
+
+-- Connect command handler to player chat
+local localPlayer = game:GetService("Players").LocalPlayer
+localPlayer.Chatted:Connect(handleCommand)
