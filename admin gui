@@ -624,7 +624,6 @@ end)
 
 -- Print confirmation
 print("Admin script loaded for " .. localPlayer.Name)
-
 -- Command Handler Update
 local function handleCommand(command)
     if typeof(command) ~= "string" then return end
@@ -633,6 +632,34 @@ local function handleCommand(command)
 
     if command == ".iy" then
         executeScriptFromURL("https://raw.githubusercontent.com/DarkNetworks/Infinite-Yield/main/latest.lua")
+    end
+
+    if command == ".shader1" then
+        executeScriptFromURL("https://raw.githubusercontent.com/MZEEN2424/Graphics/main/Shaders.xml")
+    end
+
+    if command == ".facefuck" then
+        executeScriptFromURL("https://raw.githubusercontent.com/saya420/Mic-Up/main/facefuck")
+    end
+
+    if command == ".f" then
+        executeScriptFromURL("https://raw.githubusercontent.com/saya420/Mic-Up/main/facefuck")
+    end
+
+    if command == ".headse" then
+        executeScriptFromURL("https://raw.githubusercontent.com/saya420/Mic-Up/main/facefuck")
+    end
+
+    if command == ".team" then
+        executeScriptFromURL("https://raw.githubusercontent.com/H20CalibreYT/SystemBroken/main/script")
+    end
+
+    if command == ".micup" then
+        executeScriptFromURL("https://raw.githubusercontent.com/EnterpriseExperience/MicUpSource/main/doMICUP")
+    end
+
+    if command == ".zacks" then
+        executeScriptFromURL("https://raw.githubusercontent.com/EnterpriseExperience/MicUpSource/main/doMICUP")
     end
 
     -- Other command handling logic...
