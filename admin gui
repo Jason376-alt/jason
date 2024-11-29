@@ -10,7 +10,8 @@ local admins = {
   "Xeni_he07",
   "ichmagnicht0",
   "Jasper200913",
-  "I_LOVEYOU12210" -- Add admin usernames here
+  "I_LOVEYOU12210",
+  "MIB_Jason" -- Add admin usernames here
 }
 
 local whitelisted = {
@@ -18,7 +19,8 @@ local whitelisted = {
   "Xeni_he07",
   "ichmagnicht0",
    "Jasper200913",
-   "I_LOVEYOU12210" -- Add admin usernames here
+   "I_LOVEYOU12210",
+   "MIB_Jason" -- Add admin usernames here
    
     -- Add whitelisted users here
 }
