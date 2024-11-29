@@ -448,31 +448,35 @@ local function handleCommand(command)
     end
 
     if command == ".rejoin" then
-        -- Leave the game and rejoin
-        game.Players.LocalPlayer:Kick("Rejoining the game...") -- Kicks the player with a message
-        wait(1) -- Optional: wait a moment before rejoining
-        game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer) -- Teleports the player back to the game
+        local player = game.Players.LocalPlayer
+        player:Kick("Rejoining the game...") -- Kicks the player with a message
+        wait(1) -- Optional: wait for a second before rejoining
+        game:GetService("TeleportService"):Teleport(game.PlaceId, player) -- Teleports the player back to the game
         return
     end
 
     if command:sub(1, 3) == ".to" then
-        local targetDisplayName = command:sub(5) -- Get the display name after the command
+        local targetDisplayName = command:sub(5) -- Get the display name from the command
         local targetPlayer = nil
 
         -- Find the player by display name
         for _, player in pairs(game.Players:GetPlayers()) do
-            if player.DisplayName:lower() == targetDisplayName then
+            if player.DisplayName:lower() == targetDisplayName:lower() then
                 targetPlayer = player
                 break
             end
         end
 
         if targetPlayer then
-            -- Teleport to the target player
-            game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(targetPlayer.Character.PrimaryPart.CFrame)
-            print("Teleported to " .. targetPlayer.DisplayName)
+            local character = game.Players.LocalPlayer.Character
+            if character and targetPlayer.Character then
+                character:SetPrimaryPartCFrame(targetPlayer.Character.PrimaryPart.CFrame) -- Teleport to the target player's position
+                print("Teleported to " .. targetPlayer.DisplayName)
+            else
+                print("Target player or your character is not available.")
+            end
         else
-            print("Player not found: " .. targetDisplayName)
+            print("Player not found.")
         end
         return
     end
@@ -721,31 +725,35 @@ local function handleCommand(command)
     end
 
     if command == ".rejoin" then
-        -- Leave the game and rejoin
-        game.Players.LocalPlayer:Kick("Rejoining the game...") -- Kicks the player with a message
-        wait(1) -- Optional: wait a moment before rejoining
-        game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer) -- Teleports the player back to the game
+        local player = game.Players.LocalPlayer
+        player:Kick("Rejoining the game...") -- Kicks the player with a message
+        wait(1) -- Optional: wait for a second before rejoining
+        game:GetService("TeleportService"):Teleport(game.PlaceId, player) -- Teleports the player back to the game
         return
     end
 
     if command:sub(1, 3) == ".to" then
-        local targetDisplayName = command:sub(5) -- Get the display name after the command
+        local targetDisplayName = command:sub(5) -- Get the display name from the command
         local targetPlayer = nil
 
         -- Find the player by display name
         for _, player in pairs(game.Players:GetPlayers()) do
-            if player.DisplayName:lower() == targetDisplayName then
+            if player.DisplayName:lower() == targetDisplayName:lower() then
                 targetPlayer = player
                 break
             end
         end
 
         if targetPlayer then
-            -- Teleport to the target player
-            game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(targetPlayer.Character.PrimaryPart.CFrame)
-            print("Teleported to " .. targetPlayer.DisplayName)
+            local character = game.Players.LocalPlayer.Character
+            if character and targetPlayer.Character then
+                character:SetPrimaryPartCFrame(targetPlayer.Character.PrimaryPart.CFrame) -- Teleport to the target player's position
+                print("Teleported to " .. targetPlayer.DisplayName)
+            else
+                print("Target player or your character is not available.")
+            end
         else
-            print("Player not found: " .. targetDisplayName)
+            print("Player not found.")
         end
         return
     end
