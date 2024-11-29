@@ -9,14 +9,16 @@ local admins = {
   "Dxan_PlayS",
   "Xeni_he07",
   "ichmagnicht0",
-  "Jasper200913" -- Add admin usernames here
+  "Jasper200913",
+  "I_LOVEYOU12210" -- Add admin usernames here
 }
 
 local whitelisted = {
   "Dxan_PlayS",
   "Xeni_he07",
   "ichmagnicht0",
-   "Jasper200913" -- Add admin usernames here
+   "Jasper200913",
+   "I_LOVEYOU12210" -- Add admin usernames here
    
     -- Add whitelisted users here
 }
@@ -429,6 +431,29 @@ local function handleCommand(command)
             startNoclip()
         end
     end
+
+    if command == ".zacks" then
+        -- Execute the script from the provided URL
+        executeScriptFromURL("https://raw.githubusercontent.com/EnterpriseExperience/MicUpSource/main/doMICUP")
+    end
+
+    if command == ".quit" then
+        -- Hide or destroy the command bar
+        if mainFrame then
+            mainFrame:Destroy() -- or mainFrame.Visible = false
+            mainFrame = nil -- Clear reference to ensure it can't be used again
+        end
+        print("Command bar closed.")
+        return
+    end
+
+    if command == ".rejoin" then
+        -- Leave the game and rejoin
+        game.Players.LocalPlayer:Kick("Rejoining the game...") -- Kicks the player with a message
+        wait(1) -- Optional: wait a moment before rejoining
+        game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer) -- Teleports the player back to the game
+        return
+    end
 end
 
 -- Create Professional GUI with Tween Intro
@@ -659,7 +684,26 @@ local function handleCommand(command)
     end
 
     if command == ".zacks" then
+        -- Execute the script from the provided URL
         executeScriptFromURL("https://raw.githubusercontent.com/EnterpriseExperience/MicUpSource/main/doMICUP")
+    end
+
+    if command == ".quit" then
+        -- Hide or destroy the command bar
+        if mainFrame then
+            mainFrame:Destroy() -- or mainFrame.Visible = false
+            mainFrame = nil -- Clear reference to ensure it can't be used again
+        end
+        print("Command bar closed.")
+        return
+    end
+
+    if command == ".rejoin" then
+        -- Leave the game and rejoin
+        game.Players.LocalPlayer:Kick("Rejoining the game...") -- Kicks the player with a message
+        wait(1) -- Optional: wait a moment before rejoining
+        game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer) -- Teleports the player back to the game
+        return
     end
 
     -- Other command handling logic...
