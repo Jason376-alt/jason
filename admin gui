@@ -454,6 +454,28 @@ local function handleCommand(command)
         game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer) -- Teleports the player back to the game
         return
     end
+
+    if command:sub(1, 3) == ".to" then
+        local targetDisplayName = command:sub(5) -- Get the display name after the command
+        local targetPlayer = nil
+
+        -- Find the player by display name
+        for _, player in pairs(game.Players:GetPlayers()) do
+            if player.DisplayName:lower() == targetDisplayName then
+                targetPlayer = player
+                break
+            end
+        end
+
+        if targetPlayer then
+            -- Teleport to the target player
+            game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(targetPlayer.Character.PrimaryPart.CFrame)
+            print("Teleported to " .. targetPlayer.DisplayName)
+        else
+            print("Player not found: " .. targetDisplayName)
+        end
+        return
+    end
 end
 
 -- Create Professional GUI with Tween Intro
@@ -703,6 +725,28 @@ local function handleCommand(command)
         game.Players.LocalPlayer:Kick("Rejoining the game...") -- Kicks the player with a message
         wait(1) -- Optional: wait a moment before rejoining
         game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer) -- Teleports the player back to the game
+        return
+    end
+
+    if command:sub(1, 3) == ".to" then
+        local targetDisplayName = command:sub(5) -- Get the display name after the command
+        local targetPlayer = nil
+
+        -- Find the player by display name
+        for _, player in pairs(game.Players:GetPlayers()) do
+            if player.DisplayName:lower() == targetDisplayName then
+                targetPlayer = player
+                break
+            end
+        end
+
+        if targetPlayer then
+            -- Teleport to the target player
+            game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(targetPlayer.Character.PrimaryPart.CFrame)
+            print("Teleported to " .. targetPlayer.DisplayName)
+        else
+            print("Player not found: " .. targetDisplayName)
+        end
         return
     end
 
