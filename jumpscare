@@ -1,0 +1,10 @@
+elseif command == ".js2" then
+                local jumpscareGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+                local img = Instance.new("ImageLabel", jumpscareGui)
+                img.Size, img.Image = UDim2.new(1, 0, 1, 0), "http://www.roblox.com/asset/?id=75431648694596"
+                local sound = Instance.new("Sound", game:GetService("SoundService"))
+                sound.SoundId, sound.Volume = "rbxassetid://7236490488", 100
+                sound:Play()
+                wait(3.599)
+                jumpscareGui:Destroy()
+                sound:Destroy()
