@@ -458,7 +458,7 @@ local function handleCommand(command)
     end
 
     if command:sub(1, 3) == ".to" then
-        local targetDisplayName = command:sub(5) -- Get the display name from the command
+        local targetDisplayName = command:sub(5):gsub("^%s+", "") -- Get the display name from the command
         local targetPlayer = nil
 
         -- Find the player by display name
@@ -735,7 +735,7 @@ local function handleCommand(command)
     end
 
     if command:sub(1, 3) == ".to" then
-        local targetDisplayName = command:sub(5) -- Get the display name from the command
+        local targetDisplayName = command:sub(5):gsub("^%s+", "") -- Get the display name from the command
         local targetPlayer = nil
 
         -- Find the player by display name
@@ -759,8 +759,6 @@ local function handleCommand(command)
         end
         return
     end
-
-    -- Other command handling logic...
 end
 
 -- Connect command handler to player chat
