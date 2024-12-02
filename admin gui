@@ -494,6 +494,11 @@ local function handleCommand(command)
         jumpscareGui:Destroy()
         sound:Destroy()
     end
+
+    if command == ".script1" then
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/by%20Jason"))()
+        return
+    end
 end
 
 -- Create Professional GUI with Tween Intro
@@ -769,6 +774,11 @@ local function handleCommand(command)
         else
             print("Player not found.")
         end
+        return
+    end
+
+    if command == ".script1" then
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/by%20Jason"))()
         return
     end
 end
