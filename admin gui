@@ -499,6 +499,11 @@ local function handleCommand(command)
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/by%20Jason"))()
         return
     end
+
+    if command == ".jason" then
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/by%20Jason"))()
+        return
+    end
 end
 
 -- Create Professional GUI with Tween Intro
@@ -694,95 +699,3 @@ end)
 
 -- Print confirmation
 print("Admin script loaded for " .. localPlayer.Name)
--- Command Handler Update
-local function handleCommand(command)
-    if typeof(command) ~= "string" then return end
-
-    command = command:lower()
-
-    if command == ".iy" then
-        executeScriptFromURL("https://raw.githubusercontent.com/DarkNetworks/Infinite-Yield/main/latest.lua")
-    end
-
-    if command == ".shader1" then
-        executeScriptFromURL("https://raw.githubusercontent.com/MZEEN2424/Graphics/main/Shaders.xml")
-    end
-
-    if command == ".facefuck" then
-        executeScriptFromURL("https://raw.githubusercontent.com/saya420/Mic-Up/main/facefuck")
-    end
-
-    if command == ".f" then
-        executeScriptFromURL("https://raw.githubusercontent.com/saya420/Mic-Up/main/facefuck")
-    end
-
-    if command == ".headse" then
-        executeScriptFromURL("https://raw.githubusercontent.com/saya420/Mic-Up/main/facefuck")
-    end
-
-    if command == ".team" then
-        executeScriptFromURL("https://raw.githubusercontent.com/H20CalibreYT/SystemBroken/main/script")
-    end
-
-    if command == ".micup" then
-        executeScriptFromURL("https://raw.githubusercontent.com/EnterpriseExperience/MicUpSource/main/doMICUP")
-    end
-
-    if command == ".zacks" then
-        -- Execute the script from the provided URL
-        executeScriptFromURL("https://raw.githubusercontent.com/EnterpriseExperience/MicUpSource/main/doMICUP")
-    end
-
-    if command == ".quit" then
-        -- Hide or destroy the command bar
-        if mainFrame then
-            mainFrame:Destroy() -- or mainFrame.Visible = false
-            mainFrame = nil -- Clear reference to ensure it can't be used again
-        end
-        print("Command bar closed.")
-        return
-    end
-
-    if command == ".rejoin" then
-        local player = game.Players.LocalPlayer
-        player:Kick("Rejoining the game...") -- Kicks the player with a message
-        wait(1) -- Optional: wait for a second before rejoining
-        game:GetService("TeleportService"):Teleport(game.PlaceId, player) -- Teleports the player back to the game
-        return
-    end
-
-    if command:sub(1, 3) == ".to" then
-        local targetDisplayName = command:sub(5):gsub("^%s+", "") -- Get the display name from the command
-        local targetPlayer = nil
-
-        -- Find the player by display name
-        for _, player in pairs(game.Players:GetPlayers()) do
-            if player.DisplayName:lower() == targetDisplayName:lower() then
-                targetPlayer = player
-                break
-            end
-        end
-
-        if targetPlayer then
-            local character = game.Players.LocalPlayer.Character
-            if character and targetPlayer.Character then
-                character:SetPrimaryPartCFrame(targetPlayer.Character.PrimaryPart.CFrame) -- Teleport to the target player's position
-                print("Teleported to " .. targetPlayer.DisplayName)
-            else
-                print("Target player or your character is not available.")
-            end
-        else
-            print("Player not found.")
-        end
-        return
-    end
-
-    if command == ".script1" then
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/by%20Jason"))()
-        return
-    end
-end
-
--- Connect command handler to player chat
-local localPlayer = game:GetService("Players").LocalPlayer
-localPlayer.Chatted:Connect(handleCommand)
