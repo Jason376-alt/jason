@@ -28,7 +28,8 @@ local whitelisted = {
    "dave212196",
    "NoAimkek",
    "Benniboy123321",
-   "plutooisteinsussi" -- Add admin usernames here
+   "plutooisteinsussi",
+   "medin.581" -- Add admin usernames here
    
     -- Add whitelisted users here
 }
