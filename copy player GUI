@@ -1,0 +1,77 @@
+-- Create main GUI elements
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local TextBox = Instance.new("TextBox")
+local ChangeButton = Instance.new("TextButton")
+
+-- Set GUI parent
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ResetOnSpawn = false
+
+-- Configure main frame
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
+MainFrame.Size = UDim2.new(0, 300, 0, 200)
+MainFrame.Active = true
+MainFrame.Draggable = true
+
+-- Configure title
+Title.Name = "Title"
+Title.Parent = MainFrame
+Title.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "Jason Avatar Changer"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 16
+
+-- Configure textbox
+TextBox.Name = "TextBox"
+TextBox.Parent = MainFrame
+TextBox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+TextBox.Position = UDim2.new(0.1, 0, 0.3, 0)
+TextBox.Size = UDim2.new(0.8, 0, 0, 30)
+TextBox.Font = Enum.Font.Gotham
+TextBox.PlaceholderText = "Enter avatar here..."
+TextBox.Text = ""
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextSize = 14
+
+-- Configure change button
+ChangeButton.Name = "ChangeButton"
+ChangeButton.Parent = MainFrame
+ChangeButton.BackgroundColor3 = Color3.fromRGB(0, 120, 215)
+ChangeButton.Position = UDim2.new(0.25, 0, 0.6, 0)
+ChangeButton.Size = UDim2.new(0.5, 0, 0, 35)
+ChangeButton.Font = Enum.Font.GothamBold
+ChangeButton.Text = "Change Avatar"
+ChangeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ChangeButton.TextSize = 14
+
+-- Add click functionality
+ChangeButton.MouseButton1Click:Connect(function()
+    local input = TextBox.Text
+    if input ~= "" then
+        game:GetService("ReplicatedStorage").ModifyUserEvent:FireServer(input)
+    end
+end)
+
+-- Add corner radius to elements
+local function addCorners(element)
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 6)
+    corner.Parent = element
+end
+
+addCorners(MainFrame)
+addCorners(TextBox)
+addCorners(ChangeButton)local UserInputService = game:GetService("UserInputService")
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.F then
+        MainFrame.Visible = not MainFrame.Visible
+    end
+end)
