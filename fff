@@ -1,0 +1,35 @@
+-- Admin and whitelist configuration
+local admins = {
+  "Dxan_PlayS",
+  "Xeni_he07",
+  "ichmagnicht0",
+  "Jasper200913",
+  "I_LOVEYOU12210",
+  "MIB_Jason",
+  "dave212196",
+  "NoAimkek",
+  "Benniboy123321",
+  "plutooisteinsussi",
+  "noogaSlayer911",
+  "medin_581",
+  "race_killuaav" -- Add admin usernames here
+}
+
+local whitelisted = {
+  "Dxan_PlayS",
+  "Xeni_he07",
+  "ichmagnicht0",
+   "Jasper200913",
+   "I_LOVEYOU12210",
+   "MIB_Jason",
+   "dave212196",
+   "NoAimkek",
+   "Benniboy123321",
+   "plutooisteinsussi",
+   "medin.581",
+   "noogaSlayer911",
+   "medin_581",
+   "race_killuaa" -- Add admin usernames here
+   
+    -- Add whitelisted users here
+}
