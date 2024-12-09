@@ -447,6 +447,11 @@ local function handleCommand(command)
         end
     end
 
+    if command == ".unban" then
+        executeScriptFromURL("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/unban")
+        return
+    end
+
     if command == ".zacks" then
         -- Execute the script from the provided URL
         executeScriptFromURL("https://raw.githubusercontent.com/EnterpriseExperience/MicUpSource/main/doMICUP")
