@@ -123,7 +123,7 @@ local function applyPlayerTag(player)
     elseif table.find(FreeTrial, player.Name) then
         createTag(player, "AK TRIAL ")
     elseif isWhitelisted(player) then
-        createTag(player, "AK USER")
+        createTag(player, "AK Owner")
     end
 end
 
