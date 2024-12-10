@@ -26,13 +26,13 @@ local Advertisers = {"Vlafz195", "6736_45", "goekaycool", "goekayball", "goekayb
 
 local FreeTrial = {}
 
-local Scripters = {"GYATT_DAMN1", "328ml", "29Kyooo", "BloxiAstra", "ImOn_ValveIndex"}
+local Scripters = {"MIB_Jason", "dave212196"
 
-local Owners = {"Xeni_he07", "AliKhammas1234", "AliKhammas", "AK_ADMEN1", "YournothimbuddyXD", "noogaSlayer911"}
+local Owners = {"MIB_Jason", "dave212196"
 
-local GMS = {"victorwielki"}
+local GMS = {"MIB_Jason"}
 
-local AKStaff = {"goekaycool"}
+local AKStaff = {"MIB_Jason"}
 
 -- Function to create tags for different ranks
 local function createTag(player, text)
@@ -123,7 +123,7 @@ local function applyPlayerTag(player)
     elseif table.find(FreeTrial, player.Name) then
         createTag(player, "AK TRIAL ")
     elseif isWhitelisted(player) then
-        createTag(player, "AK Owner")
+        createTag(player, "SX user")
     end
 end
 
