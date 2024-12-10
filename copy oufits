@@ -3,9 +3,9 @@ local isCopyingNearest = false
 local originalAvatar = nil -- To store the original avatar state
 
 game.Players.LocalPlayer.Chatted:Connect(function(message)
-    -- Check if the message starts with "!copy "
+    -- Check if the message starts with ".copy "
     if message:sub(1, 6) == "!copy " then
-        -- Extract the command after "!copy "
+        -- Extract the command after ".copy "
         local command = message:sub(7)
 
         -- Command to copy all player usernames
@@ -23,7 +23,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(message)
                     wait(0.05) -- Reduced wait time for faster copying (lowered to 0.05 seconds)
                 end
             else
-                warn("Already copying all usernames. Use '!uncopy' to stop.")
+                warn("Already copying all usernames. Use '.uncopy' to stop.")
             end
 
         else
@@ -43,7 +43,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(message)
         end
 
     -- Command to stop all copying activities
-    elseif message == "!uncopy" then
+    elseif message == ".uncopy" then
         -- Stop all ongoing copying activities immediately
         isCopying = false
         isCopyingNearest = false
