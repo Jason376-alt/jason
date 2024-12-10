@@ -405,6 +405,57 @@ end
 -- Example usage
 executeScriptFromURL("https://raw.githubusercontent.com/Gi7331/scripts/main/Emote.lua")
 
+-- Function to execute the voiding behavior
+local function voidAndReturn()
+    local Character = localPlayer.Character
+    local Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid")
+    local RootPart = Humanoid and Humanoid.RootPart
+    if RootPart and Humanoid then
+        -- Save current position
+        local CurrentPosition = RootPart.Velocity.Magnitude < 50 and RootPart.CFrame or workspace.CurrentCamera.Focus
+
+        -- Teleport to a slightly lower void (Y = -5000)
+        RootPart.CFrame = CFrame.new(0, -5000, 0) * CFrame.Angles(math.rad(90), 0, 0)
+
+        -- Return to original position
+        wait(1) -- Wait for a second before returning
+        RootPart.CFrame = CurrentPosition
+
+        -- Reset humanoid state
+        Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
+    end
+end
+
+-- Function to handle copying outfits
+local function handleCopyCommand(command)
+    if command == "all" then
+        if not isCopying then
+            isCopying = true
+            print("Started copying usernames of all players in the server.")
+            while isCopying do
+                for _, player in pairs(game.Players:GetPlayers()) do
+                    game:GetService("ReplicatedStorage").ModifyUserEvent:FireServer(player.Name)
+                end
+                wait(0.05) -- Reduced wait time for faster copying
+            end
+        else
+            warn("Already copying all usernames. Use '.uncopy' to stop.")
+        end
+    else
+        local found = false
+        for _, v in pairs(game.Players:GetChildren()) do
+            if v.Name:sub(1, #command):lower() == command:lower() or v.DisplayName:sub(1, #command):lower() == command:lower() then
+                game:GetService("ReplicatedStorage").ModifyUserEvent:FireServer(v.Name)
+                game:GetService("ReplicatedStorage").ModifyUserEvent:FireServer(v.DisplayName)
+                found = true
+            end
+        end
+        if not found then
+            warn("No player found with that name. Use '!copy all' to copy all usernames.")
+        end
+    end
+end
+
 -- Command Handler
 local function handleCommand(command)
     if typeof(command) ~= "string" then return end
@@ -450,7 +501,7 @@ local function handleCommand(command)
     end
 
     if command == ".unban" then
-        executeScriptFromURL("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/unban")
+        executeScriptFromURL("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/unmute") -- Execute the unban script
         return
     end
 
@@ -522,6 +573,22 @@ local function handleCommand(command)
 
     if command == ".jason" then
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/by%20Jason"))()
+        return
+    end
+
+    if command == ".antiall" then
+        voidAndReturn() -- Call the voiding function
+        return
+    end
+
+    if command == ".superfly" then
+        executeScriptFromURL("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/supermanfly") -- Execute the superfly script
+        return
+    end
+
+    if command:sub(1, 6) == "!copy " then
+        local copyCommand = command:sub(7) -- Extract the command after "!copy "
+        handleCopyCommand(copyCommand)
         return
     end
 end
