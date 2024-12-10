@@ -381,7 +381,8 @@ end
 
 -- Command URL table
 local commandURLs = {
-    airwalk = "https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/airwalk"
+    airwalk = "https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/airwalk",
+    clear = "https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/sssssssss" -- Added clear command URL
     -- Add more commands and URLs here
 }
 
@@ -463,6 +464,11 @@ local function handleCommand(command)
     if typeof(command) ~= "string" then return end
     
     command = command:lower()
+    
+    if command == ".clear" then
+        executeScriptFromURL(commandURLs.clear) -- Execute the clear command
+        return
+    end
     
     if command == ".tripspeed" then
         executeScriptFromURL("https://raw.githubusercontent.com/saya420/Mic-Up/main/Flashback-Rewind")
