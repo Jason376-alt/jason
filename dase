@@ -1,4 +1,4 @@
-local adminCmd = { "noogaSlayer911", "sxlihss", }
+local adminCmd = {"Xeni_he07", "AK_ADMEN1", "noogaSlayer911", "328ml", "sxlihss", "IIIlIIIllIlIllIII", "AliKhammas1234", "dgthgcnfhhbsd", "AliKhammas", "YournothimbuddyXD"}
 local player = game.Players.LocalPlayer
 local oldChat = game.ReplicatedStorage:FindFirstChild("DefaultChatSystemChatEvents")
 local adminSetups = {}  -- Track which admins have been set up
