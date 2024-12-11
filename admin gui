@@ -20,7 +20,8 @@ local admins = {
   "medin_581",
   "race_killuaav",
   "sxlihss",
-  "PlayGojo2" -- Add admin usernames here
+  "PlayGojo2",
+  "jasin6438729" -- Add admin usernames here
 }
 
 local whitelisted = {
@@ -39,7 +40,8 @@ local whitelisted = {
    "medin_581",
    "race_killuaa",
    "sxlihss",
-   "PlayGojo2" -- Add admin usernames here
+   "PlayGojo2",
+   "jasin6438729" -- Add admin usernames here
    
     -- Add whitelisted users here
 }
