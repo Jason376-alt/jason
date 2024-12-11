@@ -23,7 +23,8 @@ local admins = {
   "PlayGojo2",
   "jasin6438729",
   "sOZeyroxOs",
-  "checkercarlo" -- Add admin usernames here
+  "checkercarlo",
+  "KRZXY_9"  -- Add admin usernames here
 }
 local whitelisted = {
   "Dxan_PlayS",
@@ -44,7 +45,8 @@ local whitelisted = {
    "jasin6438729",
    "Faze_MegaNoah",
    "sOZeyroxOs",
-   "checkercarlo" -- Add whitelisted users here
+   "checkercarlo",
+   "KRZXY_9" -- Add whitelisted users here
 }
 
 -- Variables for admin detection
