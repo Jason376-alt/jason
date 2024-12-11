@@ -24,7 +24,8 @@ local admins = {
   "jasin6438729",
   "sOZeyroxOs",
   "checkercarlo",
-  "KRZXY_9"  -- Add admin usernames here
+  "KRZXY_9",
+  "Zitrone912" -- Add admin usernames here
 }
 local whitelisted = {
   "Dxan_PlayS",
