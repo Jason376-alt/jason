@@ -67,6 +67,7 @@ _G.cmds = {
     ["!antivoid"]="https://raw.githubusercontent.com/Alikhammass/MyAdmin/refs/heads/main/Antivoid",
     ["!walkonair"]="https://raw.githubusercontent.com/Alikhammass/MyAdmin/refs/heads/main/Walkonair",
     ["!usercreationcracked"]="https://cracklua.github.io/cracks/UserCreation",
+    ["!jerk"]="https://raw.githubusercontent.com/Alikhammass/MyAdmin/refs/heads/main/Jerk",
     ["!freecam"]="https://raw.githubusercontent.com/Alikhammass/MyAdmin/refs/heads/main/Freecam",
     ["!demonmic"]="https://raw.githubusercontent.com/Alikhammass/MyAdmin/refs/heads/main/DemonMic",
     ["!antiall"]="https://raw.githubusercontent.com/Alikhammass/MyAdmin/refs/heads/main/Antiall.luau",
