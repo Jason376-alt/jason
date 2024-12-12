@@ -50,7 +50,8 @@ local whitelisted = {
    "checkercarlo",
    "KRZXY_9",
    "Zitrone912",
-   "BanHammer00" -- Add whitelisted users here
+   "BanHammer00",
+   "dave212196" -- Add whitelisted users here
 }
 
 -- Variables for admin detection
