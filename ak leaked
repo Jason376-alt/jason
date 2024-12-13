@@ -1,0 +1,104 @@
+if _G.AKAdminLoaded then
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "AK ADMIN",
+        Text = "Script is already running!",
+        Duration = 5
+    })
+    return
+end
+_G.AKAdminLoaded = true
+local function RemoveAtmosphereAndSetFog()
+    local Lighting = game:GetService("Lighting")
+    Lighting.FogEnd = 100000
+    
+    for _, v in pairs(Lighting:GetDescendants()) do
+        if v:IsA("Atmosphere") then
+            v:Destroy()
+        end
+    end
+end
+-- Call the function
+RemoveAtmosphereAndSetFog()
+local player = game.Players.LocalPlayer
+local oldChat = game.ReplicatedStorage:FindFirstChild("DefaultChatSystemChatEvents")
+local function Chat(msg)
+    if oldChat then
+        game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
+    else
+        game.TextChatService.TextChannels.RBXGeneral:SendAsync(msg)
+    end
+end
+-- Load additional scripts
+loadstring(game:HttpGet('https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/firebutton'))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/Errornotif.luau'))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/akactive.luau'))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/betterchatdtcsys.luau"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/Ak%20Update%20logs%20gui"))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/loadplayertags.luau'))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/loadownercmds.luau"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/loadhook.luau"))()
+-- Notification system
+local function showNotification(message, backgroundColor)
+    local gui = Instance.new("ScreenGui")
+    gui.Name = "Notification"
+    gui.Parent = player.PlayerGui
+    
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(1, 0, 1, 0)
+    frame.BackgroundColor3 = backgroundColor
+    frame.Parent = gui
+    
+    local messageLabel = Instance.new("TextLabel")
+    messageLabel.Size = UDim2.new(1, 0, 1, 0)
+    messageLabel.Position = UDim2.new(0, 0, 0, 0)
+    messageLabel.Text = message
+    messageLabel.TextSize = 36
+    messageLabel.Parent = frame
+    
+    repeat
+        wait(1)
+        isWhitelisted = false
+        for _, whitelistedUser in ipairs(whitelistedPlayers) do
+            if (playerName:lower() == whitelistedUser:lower()) then
+                isWhitelisted = true
+                break
+            end
+        end
+    until isWhitelisted 
+    gui:Destroy()
+end
+-- Whitelist check
+local playerName = player.Name
+local isWhitelisted = false
+for _, whitelistedUser in ipairs(getgenv().whitelistedPlayers) do
+    if (playerName:lower() == whitelistedUser:lower()) then
+        isWhitelisted = true
+        break
+    end
+end
+if not isWhitelisted then
+    local function kickPlayer()
+        setclipboard("https://discord.gg/akadmin")
+        game.Players.LocalPlayer:Kick("You are not whitelisted. discord copied to clipboard, get points or buy lifetime.")
+    end
+    kickPlayer()
+    print("You are not whitelisted. Execute non-whitelisted logic here.")
+else
+
+    
+    -- Queue on teleport handling (now using getgenv for queueonteleport)
+    getgenv().queueonteleport = queueonteleport
+    
+    if getgenv().queueonteleport then
+        getgenv().queueonteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Alikhammass/MyAdmin/refs/heads/main/Bot%20template'))()")
+    end
+end
+-- Connect chat command handler
+local id = game.Players.LocalPlayer.UserId
+while wait() do
+    if game:GetService("CoreGui").ExperienceChat.bubbleChat:FindFirstChild("BubbleChat_"..id) then
+        game:GetService("CoreGui").ExperienceChat.bubbleChat["BubbleChat_"..id].StudsOffset = Vector3.new(0, 1, 0)
+    else
+        print("Bubble not found")
+    end
+end
