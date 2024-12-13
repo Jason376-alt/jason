@@ -1,25 +1,12 @@
-local me = "YourNameHere" -- You don't get jumpscared.
-while wait() do
-for i,v in pairs(game.Players:GetPlayers()) do
-       if v.Name ~= me and not v.PlayerGui:FindFirstChild("Screamer") and v:FindFirstChild("PlayerGui") then
-               spawn(function()
-                       local newgui = Instance.new("ScreenGui",v.PlayerGui)
-                       newgui.Name = "Screamer"
-                       local newimage = Instance.new("ImageLabel",newgui)
-                       newimage.Image = "rbxassetid://9198488765"
-                       newimage.Size = UDim2.new(1,0,1,0)
-                       local s = Instance.new("Sound",newgui)
-                       s.SoundId = "rbxassetid://270145703"
-                       s.Volume = 1
-                       s.Looped = true
-                       s:Play()
-                       print("Screamed "..v.Name)
-                       while wait() do
-                               newimage.ImageColor3 = Color3.new(math.random(1,255)/255,math.random(1,255)/255,math.random(1,255)/255)
-                               wait()
-                               newimage.ImageColor3 = Color3.new(1,1,1)
-                       end
-               end)
-       end
+local TextChatService = game:GetService("TextChatService")
+local function chatMessage(str)
+    str = tostring(str)
+    if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+        TextChatService.TextChannels.RBXGeneral:SendAsync(str)
+    else
+        ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(str, "All")
+    end
 end
-end
+
+blob = "\u{000D}"
+    chatMessage("##".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. "[LEE ON TOP] ")
