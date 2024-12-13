@@ -1,63 +1,77 @@
--- Create the ScreenGui
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "AdminActiveGUI"
-screenGui.Parent = game:WaitForChild("CoreGui") -- Attach to the player's GUI
+-- Create main GUI elements
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local TextBox = Instance.new("TextBox")
+local ChangeButton = Instance.new("TextButton")
 
--- Create the green dot (with fade and pulse animation)
-local dot = Instance.new("Frame")
-dot.Name = "HeartbeatDot"
-dot.Parent = screenGui
-dot.Size = UDim2.new(0, 10, 0, 10) -- 20x20 pixels
-dot.Position = UDim2.new(1, -135, 0, -40) -- Position near the "A" in the top-right corner, 10 pixels from the top edge
-dot.BackgroundColor3 = Color3.new(0, 1, 0) -- Green color
-dot.BorderSizePixel = 0
-dot.AnchorPoint = Vector2.new(0.5, 0.5) -- Centered scaling
+-- Set GUI parent
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ResetOnSpawn = false
 
--- Add rounded corners to the green dot
-local uiCorner = Instance.new("UICorner", dot)
-uiCorner.CornerRadius = UDim.new(1, 0) -- Fully round shape
+-- Configure main frame
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
+MainFrame.Size = UDim2.new(0, 300, 0, 200)
+MainFrame.Active = true
+MainFrame.Draggable = true
 
--- Create the text label (positioned next to the "A")
-local label = Instance.new("TextLabel")
-label.Name = "jason"
-label.Parent = screenGui
-label.Size = UDim2.new(0, 100, 0, 30) -- Smaller size for the text
-label.Position = UDim2.new(1, -125, 0, -55) -- Position in the top-right corner with some offset from the right
-label.Text = "Jason Admin Active"
-label.TextColor3 = Color3.new(1, 1, 1) -- White text
-label.TextScaled = true
-label.BackgroundTransparency = 1 -- No background
-label.Font = Enum.Font.SourceSansBold
+-- Configure title
+Title.Name = "Title"
+Title.Parent = MainFrame
+Title.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "Jason's Free Avatar Changer"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 16
 
--- Add heartbeat animation to the green dot with fading effect
-local TweenService = game:GetService("TweenService")
-local heartbeatInfo = TweenInfo.new(
-    0.5, -- Animation time (half a second)
-    Enum.EasingStyle.Sine, -- Sine easing for smooth effect
-    Enum.EasingDirection.InOut, -- Eases in and out
-    -1, -- Infinite repeat count
-    true -- Reverse animation on repeat
-)
+-- Configure textbox
+TextBox.Name = "TextBox"
+TextBox.Parent = MainFrame
+TextBox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+TextBox.Position = UDim2.new(0.1, 0, 0.3, 0)
+TextBox.Size = UDim2.new(0.8, 0, 0, 30)
+TextBox.Font = Enum.Font.Gotham
+TextBox.PlaceholderText = "Enter avatar here..."
+TextBox.Text = ""
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextSize = 14
 
-local heartbeatTween = TweenService:Create(dot, heartbeatInfo, {
-    Size = UDim2.new(0, 15, 0, 15), -- Pulsing size
-    BackgroundTransparency = 0.5, -- Fade out when big
-})
-local shrinkTween = TweenService:Create(dot, heartbeatInfo, {
-    Size = UDim2.new(0, 10, 0, 10), -- Shrinking size
-    BackgroundTransparency = 0, -- Fully visible when small
-})
+-- Configure change button
+ChangeButton.Name = "ChangeButton"
+ChangeButton.Parent = MainFrame
+ChangeButton.BackgroundColor3 = Color3.fromRGB(0, 120, 215)
+ChangeButton.Position = UDim2.new(0.25, 0, 0.6, 0)
+ChangeButton.Size = UDim2.new(0.5, 0, 0, 35)
+ChangeButton.Font = Enum.Font.GothamBold
+ChangeButton.Text = "Change Avatar"
+ChangeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ChangeButton.TextSize = 14
 
--- Play the heartbeat animation with fade effect
-heartbeatTween:Play()
+-- Add click functionality
+ChangeButton.MouseButton1Click:Connect(function()
+    local input = TextBox.Text
+    if input ~= "" then
+        game:GetService("ReplicatedStorage").ModifyUserEvent:FireServer(input)
+    end
+end)
 
--- Animation control: Fade the dot while it grows
-dot:GetPropertyChangedSignal("Size"):Connect(function()
-    if dot.Size.X.Scale == 0.15 then -- When it's large
-        heartbeatTween:Cancel()
-        shrinkTween:Play()
-    elseif dot.Size.X.Scale == 0.1 then -- When it's small
-        shrinkTween:Cancel()
-        heartbeatTween:Play()
+-- Add corner radius to elements
+local function addCorners(element)
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 6)
+    corner.Parent = element
+end
+
+addCorners(MainFrame)
+addCorners(TextBox)
+addCorners(ChangeButton)local UserInputService = game:GetService("UserInputService")
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.P then
+        MainFrame.Visible = not MainFrame.Visible
     end
 end)
