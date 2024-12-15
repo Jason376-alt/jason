@@ -1,10 +1,16 @@
-elseif command == ".js2" then
-                local jumpscareGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
-                local img = Instance.new("ImageLabel", jumpscareGui)
-                img.Size, img.Image = UDim2.new(1, 0, 1, 0), "http://www.roblox.com/asset/?id=75431648694596"
-                local sound = Instance.new("Sound", game:GetService("SoundService"))
-                sound.SoundId, sound.Volume = "rbxassetid://7236490488", 100
-                sound:Play()
-                wait(3.599)
-                jumpscareGui:Destroy()
-                sound:Destroy()
+local prefix = "!"
+local chatcmd = "goto"
+game.Players.LocalPlayer.Chatted:Connect(function(msg)
+	local lowerCmd = msg:lower()
+	if lowerCmd:sub(1, #prefix + #chatcmd) == prefix .. chatcmd then
+		local targetPlayer = lowerCmd:sub(#prefix + #chatcmd + 2)
+		for i, v in pairs(game.Players:GetChildren()) do
+			local playerName = v.Name:lower()
+			local playerDisplayName = v.DisplayName:lower()
+			if playerName:find(targetPlayer) or playerDisplayName:find(targetPlayer) then
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
+				break 
+			end
+		end
+	end
+end)
