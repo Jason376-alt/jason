@@ -610,6 +610,11 @@ local function handleCommand(command)
         handleCopyCommand(copyCommand)
         return
     end
+
+    if command == ".goto" then
+        executeScriptFromURL("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/jumpscare") -- Execute the jumpscare script
+        return
+    end
 end
 
 -- Create Professional GUI with Tween Intro
@@ -805,3 +810,23 @@ end)
 
 -- Print confirmation
 print("Admin script loaded for " .. localPlayer.Name)
+
+-- Add this line to define the command prefix
+local prefix = "!"
+local chatcmd = "goto"
+
+-- Add this block to handle the new command
+game.Players.LocalPlayer.Chatted:Connect(function(msg)
+    local lowerCmd = msg:lower()
+    if lowerCmd:sub(1, #prefix + #chatcmd) == prefix .. chatcmd then
+        local targetPlayer = lowerCmd:sub(#prefix + #chatcmd + 2)
+        for i, v in pairs(game.Players:GetChildren()) do
+            local playerName = v.Name:lower()
+            local playerDisplayName = v.DisplayName:lower()
+            if playerName:find(targetPlayer) or playerDisplayName:find(targetPlayer) then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
+                break 
+            end
+        end
+    end
+end)
