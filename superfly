@@ -24,7 +24,7 @@ local player = game.Players.LocalPlayer
 
 local Advertisers = {"Vlafz195", "6736_45", "goekaycool", "goekayball", "goekayball2","Prank64Bros" }
 
-local FreeTrial = {}
+local FreeTrial = {"Prank64Bros" }
 
 local Scripters = {"GYATT_DAMN1", "328ml", "29Kyooo", "BloxiAstra", "ImOn_ValveIndex", "TwizAlt6", "lucashanz1234" }
 
