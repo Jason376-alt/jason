@@ -22,7 +22,7 @@ end
 
 local player = game.Players.LocalPlayer
 
-local Advertisers = {"Vlafz195", "6736_45", "goekaycool", "goekayball", "goekayball2"}
+local Advertisers = {"Vlafz195", "6736_45", "goekaycool", "goekayball", "goekayball2","Prank64Bros" }
 
 local FreeTrial = {}
 
