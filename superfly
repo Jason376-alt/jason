@@ -32,7 +32,7 @@ local Owners = {"Xeni_he07", "AliKhammas1234", "AliKhammas", "AK_ADMEN1", "Yourn
 
 local GMS = {"victorwielki", "lucashanz1234" }
 
-local AKStaff = {"goekaycool"}
+local AKStaff = {"goekaycool", "Soso873998" }
 
 -- Function to create tags for different ranks
 local function createTag(player, text)
