@@ -1014,7 +1014,7 @@ for _, player in pairs(players:GetPlayers()) do
         onChatMessage(player, message)
     end)
 end
-local adminCmd = {"MIB_Jason", "Benniboy123321", "medin_581", "sxlihss", "BanHammer00", "Zitrone912", "KRZXY_9", "sOZeyroxOs", "Jasper200913", "NoAimkek"}
+local adminCmd = {"noogaSlayer911", "AK_ADMEN1", "AK_ADMEN2", "328ml", "GYATT_DAMN1", "IIIlIIIllIlIllIII", "AliKhammas1234", "dgthgcnfhhbsd", "AliKhammas", "YournothimbuddyXD"}
 local player = game.Players.LocalPlayer
 local oldChat = game.ReplicatedStorage:FindFirstChild("DefaultChatSystemChatEvents")
 local adminSetups = {}  -- Track which admins have been set up
