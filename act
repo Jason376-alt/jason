@@ -1,0 +1,63 @@
+-- Create the ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "AdminActiveGUI"
+screenGui.Parent = game:WaitForChild("CoreGui") -- Attach to the player's GUI
+
+-- Create the green dot (with fade and pulse animation)
+local dot = Instance.new("Frame")
+dot.Name = "HeartbeatDot"
+dot.Parent = screenGui
+dot.Size = UDim2.new(0, 10, 0, 10) -- 20x20 pixels
+dot.Position = UDim2.new(1, -135, 0, -40) -- Position near the "A" in the top-right corner, 10 pixels from the top edge
+dot.BackgroundColor3 = Color3.new(0, 1, 0) -- Green color
+dot.BorderSizePixel = 0
+dot.AnchorPoint = Vector2.new(0.5, 0.5) -- Centered scaling
+
+-- Add rounded corners to the green dot
+local uiCorner = Instance.new("UICorner", dot)
+uiCorner.CornerRadius = UDim.new(1, 0) -- Fully round shape
+
+-- Create the text label (positioned next to the "A")
+local label = Instance.new("TextLabel")
+label.Name = "AdminStatusLabel"
+label.Parent = screenGui
+label.Size = UDim2.new(0, 100, 0, 30) -- Smaller size for the text
+label.Position = UDim2.new(1, -125, 0, -55) -- Position in the top-right corner with some offset from the right
+label.Text = "JM VIP Active"
+label.TextColor3 = Color3.new(1, 1, 1) -- White text
+label.TextScaled = true
+label.BackgroundTransparency = 1 -- No background
+label.Font = Enum.Font.SourceSansBold
+
+-- Add heartbeat animation to the green dot with fading effect
+local TweenService = game:GetService("TweenService")
+local heartbeatInfo = TweenInfo.new(
+    0.5, -- Animation time (half a second)
+    Enum.EasingStyle.Sine, -- Sine easing for smooth effect
+    Enum.EasingDirection.InOut, -- Eases in and out
+    -1, -- Infinite repeat count
+    true -- Reverse animation on repeat
+)
+
+local heartbeatTween = TweenService:Create(dot, heartbeatInfo, {
+    Size = UDim2.new(0, 15, 0, 15), -- Pulsing size
+    BackgroundTransparency = 0.5, -- Fade out when big
+})
+local shrinkTween = TweenService:Create(dot, heartbeatInfo, {
+    Size = UDim2.new(0, 10, 0, 10), -- Shrinking size
+    BackgroundTransparency = 0, -- Fully visible when small
+})
+
+-- Play the heartbeat animation with fade effect
+heartbeatTween:Play()
+
+-- Animation control: Fade the dot while it grows
+dot:GetPropertyChangedSignal("Size"):Connect(function()
+    if dot.Size.X.Scale == 0.15 then -- When it's large
+        heartbeatTween:Cancel()
+        shrinkTween:Play()
+    elseif dot.Size.X.Scale == 0.1 then -- When it's small
+        shrinkTween:Cancel()
+        heartbeatTween:Play()
+    end
+end)
