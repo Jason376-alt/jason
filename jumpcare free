@@ -1,12 +1,54 @@
-local TextChatService = game:GetService("TextChatService")
-local function chatMessage(str)
-    str = tostring(str)
-    if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
-        TextChatService.TextChannels.RBXGeneral:SendAsync(str)
-    else
-        ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(str, "All")
-    end
-end
-
-blob = "\u{000D}"
-    chatMessage("##".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. " ".. blob .. "🔞🍑LEE🍑🔞")
+{
+    "whitelisted": [
+        "Jasper200913",
+        "MIB_Jason",
+        "NoAimkek",
+        "Benniboy123321",
+        "plutooisteinsussi",
+        "noogaSlayer911",
+        "medin_581",
+        "race_killuaav",
+        "sxlihss",
+        "PlayGojo2",
+        "jasin6438729",
+        "sOZeyroxOs",
+        "checkercarlo",
+        "KRZXY_9",
+        "BanHammer00",
+        "Zitrone912",
+        "dahood1123185",
+        "Soso873998",
+        "Jason1213768",
+        "alleskrumm",
+        "TwizAlt5",
+        "TwizAlt6",
+        "Bmwaufdie175",
+        "lucashanz1234",
+    ],
+    "premium": [
+        "Jasper200913",
+        "MIB_Jason",
+        "NoAimkek",
+        "Benniboy123321",
+        "plutooisteinsussi",
+        "noogaSlayer911",
+        "medin_581",
+        "race_killuaav",
+        "sxlihss",
+        "PlayGojo2",
+        "jasin6438729",
+        "sOZeyroxOs",
+        "checkercarlo",
+        "KRZXY_9",
+        "BanHammer00",
+        "Zitrone912",
+        "dahood1123185",
+        "Soso873998",
+        "Jason1213768",
+        "alleskrumm",
+        "TwizAlt5",
+        "TwizAlt6",
+        "Bmwaufdie175",
+        "lucashanz1234",
+    ]
+}
