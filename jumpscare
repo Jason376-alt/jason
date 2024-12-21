@@ -32,7 +32,7 @@ local Owners = {"Bmwaufdie175" }
 
 local GMS = {"Bmwaufdie175"}
 
-local AKStaff = {"Bmwaufdie175"}
+local JMStaff = {"Bmwaufdie175"}
 
 -- Function to create tags for different ranks
 local function createTag(player, text)
@@ -111,19 +111,19 @@ end
 local function applyPlayerTag(player)
     -- Check for each role and apply the corresponding tag if the player is in that list
     if table.find(Owners, player.Name) then
-        createTag(player, "AK OWNER ")
+        createTag(player, "JM OWNER ")
     elseif table.find(Scripters, player.Name) then
-        createTag(player, "AK SCRIPTER ")
+        createTag(player, "JM SCRIPTER ")
     elseif table.find(GMS, player.Name) then
-        createTag(player, "AK GM ")
+        createTag(player, "JM GM ")
     elseif table.find(AKStaff, player.Name) then
-        createTag(player, "AK STAFF ")
+        createTag(player, "JM STAFF ")
     elseif table.find(Advertisers, player.Name) then
-        createTag(player, "AK ADVERTISER ")
+        createTag(player, "JM ADVERTISER ")
     elseif table.find(FreeTrial, player.Name) then
-        createTag(player, "AK TRIAL ")
+        createTag(player, "JM TRIAL ")
     elseif isWhitelisted(player) then
-        createTag(player, "AK USER")
+        createTag(player, "JM USER")
     end
 end
 
