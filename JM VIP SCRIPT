@@ -30,7 +30,7 @@ local function Chat(msg)
 end
 -- Load additional scripts
 loadstring(game:HttpGet('https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/firebutton'))()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/akactive.luau'))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/act'))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/betterchatdtcsys.luau"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/Ak%20Update%20logs%20gui"))()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/fps'))()
@@ -76,7 +76,7 @@ for _, whitelistedUser in ipairs(getgenv().whitelistedPlayers) do
 end
 if not isWhitelisted then
     local function kickPlayer()
-        setclipboard("https://discord.gg/akadmin")
+        setclipboard("https://discord.gg/j2PFmxzP")
         game.Players.LocalPlayer:Kick("You are not whitelisted. discord copied to clipboard, get points or buy lifetime.")
     end
     kickPlayer()
