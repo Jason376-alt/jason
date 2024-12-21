@@ -34,7 +34,7 @@ loadstring(game:HttpGet('https://raw.githubusercontent.com/Jason376-alt/jason/re
 loadstring(game:HttpGet("https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/betterchatdtcsys.luau"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/Ak%20Update%20logs%20gui"))()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/admin%20commands'))()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/remotechecker"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/jumpscare"))()
 -- Notification system
 local function showNotification(message, backgroundColor)
     local gui = Instance.new("ScreenGui")
