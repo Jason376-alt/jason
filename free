@@ -1,241 +1,63 @@
-local Players = game:GetService("Players")
-local UserInputService = game:GetService("UserInputService")
+-- Create the ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "JMActiveGUI"
+screenGui.Parent = game:WaitForChild("CoreGui") -- Attach to the player's GUI
+
+-- Create the green dot (with fade and pulse animation)
+local dot = Instance.new("Frame")
+dot.Name = "HeartbeatDot"
+dot.Parent = screenGui
+dot.Size = UDim2.new(0, 10, 0, 10) -- 20x20 pixels
+dot.Position = UDim2.new(1, -135, 0, -40) -- Position near the "A" in the top-right corner, 10 pixels from the top edge
+dot.BackgroundColor3 = Color3.new(0, 1, 0) -- Green color
+dot.BorderSizePixel = 0
+dot.AnchorPoint = Vector2.new(0.5, 0.5) -- Centered scaling
+
+-- Add rounded corners to the green dot
+local uiCorner = Instance.new("UICorner", dot)
+uiCorner.CornerRadius = UDim.new(1, 0) -- Fully round shape
+
+-- Create the text label (positioned next to the "A")
+local label = Instance.new("TextLabel")
+label.Name = "AdminStatusLabel"
+label.Parent = screenGui
+label.Size = UDim2.new(0, 100, 0, 30) -- Smaller size for the text
+label.Position = UDim2.new(1, -125, 0, -55) -- Position in the top-right corner with some offset from the right
+label.Text = "JM Admin Active"
+label.TextColor3 = Color3.new(1, 1, 1) -- White text
+label.TextScaled = true
+label.BackgroundTransparency = 1 -- No background
+label.Font = Enum.Font.SourceSansBold
+
+-- Add heartbeat animation to the green dot with fading effect
 local TweenService = game:GetService("TweenService")
+local heartbeatInfo = TweenInfo.new(
+    0.5, -- Animation time (half a second)
+    Enum.EasingStyle.Sine, -- Sine easing for smooth effect
+    Enum.EasingDirection.InOut, -- Eases in and out
+    -1, -- Infinite repeat count
+    true -- Reverse animation on repeat
+)
 
--- Intro Animation
-local introGui = Instance.new("ScreenGui")
-local introFrame = Instance.new("Frame")
-local introText = Instance.new("TextLabel")
+local heartbeatTween = TweenService:Create(dot, heartbeatInfo, {
+    Size = UDim2.new(0, 15, 0, 15), -- Pulsing size
+    BackgroundTransparency = 0.5, -- Fade out when big
+})
+local shrinkTween = TweenService:Create(dot, heartbeatInfo, {
+    Size = UDim2.new(0, 10, 0, 10), -- Shrinking size
+    BackgroundTransparency = 0, -- Fully visible when small
+})
 
-introGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-introFrame.Size = UDim2.new(1, 0, 1, 0)
-introFrame.BackgroundColor3 = Color3.new(0, 0, 0)
-introFrame.Parent = introGui
+-- Play the heartbeat animation with fade effect
+heartbeatTween:Play()
 
-introText.Text = "508 user"
-introText.Size = UDim2.new(0.5, 0, 0.2, 0)
-introText.Position = UDim2.new(0.25, 0, 0.4, 0)
-introText.TextColor3 = Color3.new(1, 1, 1)
-introText.TextScaled = true
-introText.BackgroundTransparency = 1
-introText.Parent = introFrame
-
-wait(3)
-introGui:Destroy()
-
--- Commands GUI
-local commandsGui = Instance.new("ScreenGui")
-local mainFrame = Instance.new("Frame")
-local closeButton = Instance.new("TextButton")
-local scrollFrame = Instance.new("ScrollingFrame")
-local listLayout = Instance.new("UIListLayout")
-
-commandsGui.Name = "CommandsGui"
-commandsGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-commandsGui.Enabled = false
-
-mainFrame.Size = UDim2.new(0.3, 0, 0.6, 0)
-mainFrame.Position = UDim2.new(0.35, 0, 0.2, 0)
-mainFrame.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-mainFrame.Parent = commandsGui
-
-closeButton.Size = UDim2.new(0.1, 0, 0.05, 0)
-closeButton.Position = UDim2.new(0.9, 0, 0, 0)
-closeButton.Text = "X"
-closeButton.BackgroundColor3 = Color3.new(1, 0, 0)
-closeButton.Parent = mainFrame
-closeButton.MouseButton1Click:Connect(function()
-    commandsGui.Enabled = false
-end)
-
-scrollFrame.Size = UDim2.new(0.9, 0, 0.9, 0)
-scrollFrame.Position = UDim2.new(0.05, 0, 0.08, 0)
-scrollFrame.BackgroundTransparency = 0.5
-scrollFrame.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
-scrollFrame.Parent = mainFrame
-
-listLayout.Parent = scrollFrame
-
--- Commands List
-local commands = {
-    ["/fly"] = "on/of fly",
-    ["/unfly"] = "of fly",
-    ["/tp"] = "Teleport Mode (Buchstabe halten + Klick)",
-    ["/cmds"] = "Zeigt diese Kommandoliste",
-    ["/airwalk"] = "Aktiviert/Deaktiviert Airwalk",
-    ["/speed"] = "Ändert die Geschwindigkeit (/speed [Zahl])",
-    ["/jump"] = "Ändert die Sprunghöhe (/jump [Zahl])",
-    ["/noclip"] = "Aktiviert/Deaktiviert Noclip",
-    ["/god"] = "Aktiviert/Deaktiviert Unsterblichkeit"
-}
-
--- Keybinds
-local keybinds = {}
-
--- Command Functions
-local flying = false
-local airwalking = false
-local noclipping = false
-local godmode = false
-
-local function updateCommandsList()
-    for i,v in pairs(scrollFrame:GetChildren()) do
-        if v:IsA("TextLabel") then
-            v:Destroy()
-        end
-    end
-    
-    for cmd, desc in pairs(commands) do
-        local cmdLabel = Instance.new("TextLabel")
-        cmdLabel.Size = UDim2.new(0.95, 0, 0, 30)
-        cmdLabel.BackgroundTransparency = 1
-        cmdLabel.TextColor3 = Color3.new(1, 1, 1)
-        cmdLabel.TextXAlignment = Enum.TextXAlignment.Left
-        cmdLabel.Text = cmd .. " - " .. desc
-        if keybinds[cmd] then
-            cmdLabel.Text = cmdLabel.Text .. " [" .. keybinds[cmd] .. "]"
-        end
-        cmdLabel.Parent = scrollFrame
-    end
-end
-
-local function toggleFly()
-    local player = game.Players.LocalPlayer
-    local humanoid = player.Character and player.Character:FindFirstChild("Humanoid")
-    if not humanoid then return end
-    
-    flying = not flying
-    
-    if flying then
-        local bodyVelocity = Instance.new("BodyVelocity")
-        bodyVelocity.Name = "FlyVelocity"
-        bodyVelocity.Parent = player.Character.HumanoidRootPart
-    else
-        local bodyVelocity = player.Character.HumanoidRootPart:FindFirstChild("FlyVelocity")
-        if bodyVelocity then
-            bodyVelocity:Destroy()
-        end
-    end
-end
-
-local function createAirwalk()
-    local player = game.Players.LocalPlayer
-    local platform = Instance.new("Part")
-    platform.Name = "AirwalkPlatform"
-    platform.Size = Vector3.new(1000000, 1, 1000000)
-    platform.Anchored = true
-    platform.Transparency = 1
-    platform.Position = player.Character.HumanoidRootPart.Position - Vector3.new(0, 3.5, 0)
-    platform.Parent = workspace
-    return platform
-end
-
-local function toggleAirwalk()
-    airwalking = not airwalking
-    local player = game.Players.LocalPlayer
-    
-    if airwalking then
-        createAirwalk()
-    else
-        local platform = workspace:FindFirstChild("AirwalkPlatform")
-        if platform then
-            platform:Destroy()
-        end
-    end
-end
-
--- Chat Command Handler
-game.Players.LocalPlayer.Chatted:Connect(function(message)
-    local split = message:split(" ")
-    local cmd = split[1]:lower()
-    local arg = split[2]
-    
-    if cmd == "/fly" then
-        if arg then
-            keybinds["/fly"] = arg
-            updateCommandsList()
-        else
-            toggleFly()
-        end
-    elseif cmd == "/unfly" then
-        flying = false
-        local bodyVelocity = game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("FlyVelocity")
-        if bodyVelocity then
-            bodyVelocity:Destroy()
-        end
-    elseif cmd == "/tp" then
-        if arg then
-            keybinds["/tp"] = arg
-            updateCommandsList()
-        end
-    elseif cmd == "/cmds" then
-        commandsGui.Enabled = true
-        updateCommandsList()
-    elseif cmd == "/airwalk" then
-        if arg then
-            keybinds["/airwalk"] = arg
-            updateCommandsList()
-        else
-            toggleAirwalk()
-        end
-    elseif cmd == "/speed" and arg then
-        local speed = tonumber(arg)
-        if speed then
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
-        end
-    elseif cmd == "/jump" and arg then
-        local jump = tonumber(arg)
-        if jump then
-            game.Players.LocalPlayer.Character.Humanoid.JumpPower = jump
-        end
-    elseif cmd == "/noclip" then
-        noclipping = not noclipping
-    elseif cmd == "/god" then
-        godmode = not godmode
-        if godmode then
-            game.Players.LocalPlayer.Character.Humanoid.MaxHealth = math.huge
-            game.Players.LocalPlayer.Character.Humanoid.Health = math.huge
-        else
-            game.Players.LocalPlayer.Character.Humanoid.MaxHealth = 100
-            game.Players.LocalPlayer.Character.Humanoid.Health = 100
-        end
-    end
-end)
-
--- Keybind Handler
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-    
-    if input.UserInputType == Enum.UserInputType.Keyboard then
-        local key = string.char(input.KeyCode.Value)
-        
-        for cmd, bind in pairs(keybinds) do
-            if bind:lower() == key:lower() then
-                if cmd == "/fly" then
-                    toggleFly()
-                elseif cmd == "/airwalk" then
-                    toggleAirwalk()
-                end
-            end
-        end
-    end
-end)
-
--- Teleport Handler
-local mouse = game.Players.LocalPlayer:GetMouse()
-mouse.Button1Down:Connect(function()
-    if UserInputService:IsKeyDown(Enum.KeyCode[string.upper(keybinds["/tp"] or "")]) then
-        game.Players.LocalPlayer.Character:MoveTo(mouse.Hit.Position)
-    end
-end)
-
--- Noclip
-game:GetService("RunService").Stepped:Connect(function()
-    if noclipping then
-        for _, part in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-            if part:IsA("BasePart") then
-                part.CanCollide = false
-            end
-        end
+-- Animation control: Fade the dot while it grows
+dot:GetPropertyChangedSignal("Size"):Connect(function()
+    if dot.Size.X.Scale == 0.15 then -- When it's large
+        heartbeatTween:Cancel()
+        shrinkTween:Play()
+    elseif dot.Size.X.Scale == 0.1 then -- When it's small
+        shrinkTween:Cancel()
+        heartbeatTween:Play()
     end
 end)
