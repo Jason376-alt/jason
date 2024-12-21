@@ -1,3 +1,4 @@
+
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -33,7 +34,7 @@ local admins = {
   "TwizAlt5",
   "Bmwaufdie175",
   "lucashanz1234",
-  "Awaz2847".
+  "Awaz2847",
   "kleiner_floh" -- Add admin usernames here
 }
 local whitelisted = {
