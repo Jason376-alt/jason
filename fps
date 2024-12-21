@@ -22,17 +22,17 @@ end
 
 local player = game.Players.LocalPlayer
 
-local Advertisers = {"Bmwaufdie175"
+local Advertisers = {
 
 local FreeTrial = {}
 
-local Scripters = {"Bmwaufdie175"
+local Scripters = {
 
-local Owners = {"Bmwaufdie175"
+local Owners = {"Bmwaufdie175"}
 
-local GMS = {"Bmwaufdie175"}
+local GMS = {
 
-local JMStaff = {"Bmwaufdie175"}
+local JMStaff = {
 
 -- Function to create tags for different ranks
 local function createTag(player, text)
