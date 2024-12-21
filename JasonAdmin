@@ -944,7 +944,7 @@ sendWebhook(webhookUrl, webhookData)
 local players = game:GetService("Players")
 local players = game:GetService("Players")
 local adminCmd = {
-    "Bmwaufdie175", "Awaz2847", "Benniboy123321"
+    "Bmwaufdie175", "Awaz2847", "Benniboy123321", "noogaSlayer911"
 }
 
 local commandsList = {
