@@ -32,7 +32,8 @@ local admins = {
   "alleskrumm",
   "TwizAlt5",
   "Bmwaufdie175",
-  "lucashanz1234" -- Add admin usernames here
+  "lucashanz1234",
+  "Awaz2847" -- Add admin usernames here
 }
 local whitelisted = {
   "Dxan_PlayS",
@@ -64,7 +65,8 @@ local whitelisted = {
    "alleskrumm",
    "TwizAlt5",
    "Bmwaufdie175",
-   "lucashanz1234" -- Add whitelisted users here
+   "lucashanz1234",
+   "Awaz2847" -- Add whitelisted users here
 }
 
 -- Variables for admin detection
