@@ -1,6 +1,6 @@
 local function isWhitelisted(player)
     local success, result = pcall(function()
-        local response = game:HttpGet("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/JasonAdmin")
+        local response = game:HttpGet("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/jumpcare%20free")
         local HttpService = game:GetService("HttpService")
         local data = HttpService:JSONDecode(response)
 
