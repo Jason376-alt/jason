@@ -1,140 +1,138 @@
-local CoreGui
-local Players
-local RunService
-local Stats
-if cloneref then
-    CoreGui = cloneref(game:GetService("CoreGui"))
-    Players = cloneref(game:GetService("Players"))
-    RunService = cloneref(game:GetService("RunService"))
-    Stats = cloneref(game:GetService("Stats"))
-else
-    CoreGui = game:GetService("CoreGui")
-    Players = game:GetService("Players")
-    RunService = game:GetService("RunService")
-    Stats = game:GetService("Stats")
+local function isWhitelisted(player)
+    local success, result = pcall(function()
+        local response = game:HttpGet("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/by%20Jason")
+        local HttpService = game:GetService("HttpService")
+        local data = HttpService:JSONDecode(response)
+
+         -- Debugging log
+        if data and data.whitelisted then
+            local isInWhitelist = table.find(data.whitelisted, player.Name) ~= nil
+            print("Player", player.Name, "whitelisted:", isInWhitelist) -- Debugging log
+            return isInWhitelist
+        end
+        return false
+    end)
+
+    if not success then
+        warn("Failed to fetch whitelist data for player:", player.Name)
+    end
+
+    return success and result
 end
-task.wait(0.1)
-local LocalPlayer = Players.LocalPlayer
 
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "TopBarUI"
-ScreenGui.Parent = CoreGui
-ScreenGui.IgnoreGuiInset = true
-ScreenGui.ResetOnSpawn = false
+local player = game.Players.LocalPlayer
 
-local ToggleButton = Instance.new("TextButton")
-ToggleButton.Name = "ToggleButton"
-ToggleButton.Parent = ScreenGui
-ToggleButton.Size = UDim2.new(0, 150, 0, 30)
-ToggleButton.Position = UDim2.new(1, -160, 0, 10)
-ToggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-ToggleButton.BorderSizePixel = 0
-ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ToggleButton.TextScaled = true
-ToggleButton.Font = Enum.Font.SourceSansBold
-ToggleButton.Text = "Toggle UI"
+local Advertisers = {"Bmwaufdie175"
 
-local UIContainer = Instance.new("Frame")
-UIContainer.Name = "UIContainer"
-UIContainer.Parent = ScreenGui
-UIContainer.Size = UDim2.new(0, 500, 0, 30) 
-UIContainer.Position = UDim2.new(0.5, -250, 0, 0)
-UIContainer.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-UIContainer.BackgroundTransparency = 0.5
-UIContainer.BorderSizePixel = 0
-UIContainer.Visible = true
+local FreeTrial = {}
 
-local TimeLabel = Instance.new("TextLabel")
-TimeLabel.Name = "TimeLabel"
-TimeLabel.Parent = UIContainer
-TimeLabel.Size = UDim2.new(0, 150, 1, 0)
-TimeLabel.Position = UDim2.new(0, 0, 0, 0)
-TimeLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-TimeLabel.BackgroundTransparency = 1
-TimeLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-TimeLabel.TextScaled = true
-TimeLabel.Font = Enum.Font.SourceSansBold
-TimeLabel.Text = "Loading..."
+local Scripters = {"Bmwaufdie175"
 
-local PingLabel = Instance.new("TextLabel")
-PingLabel.Name = "PingLabel"
-PingLabel.Parent = UIContainer
-PingLabel.Size = UDim2.new(0, 150, 1, 0)
-PingLabel.Position = UDim2.new(0, 160, 0, 0)
-PingLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-PingLabel.BackgroundTransparency = 1
-PingLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-PingLabel.TextScaled = true
-PingLabel.Font = Enum.Font.SourceSansBold
-PingLabel.Text = "Loading..."
+local Owners = {"Bmwaufdie175"
 
-local FPSLabel = Instance.new("TextLabel")
-FPSLabel.Name = "FPSLabel"
-FPSLabel.Parent = UIContainer
-FPSLabel.Size = UDim2.new(0, 150, 1, 0)
-FPSLabel.Position = UDim2.new(0, 320, 0, 0)
-FPSLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-FPSLabel.BackgroundTransparency = 1
-FPSLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-FPSLabel.TextScaled = true
-FPSLabel.Font = Enum.Font.SourceSansBold
-FPSLabel.Text = "Loading..."
+local GMS = {"Bmwaufdie175"}
 
-local isUIVisible = true
+local JMStaff = {"Bmwaufdie175"}
 
-ToggleButton.MouseButton1Click:Connect(function()
-    isUIVisible = not isUIVisible
-    UIContainer.Visible = isUIVisible
-    ToggleButton.Text = isUIVisible and "Hide UI" or "Show UI"
+-- Function to create tags for different ranks
+local function createTag(player, text)
+    local function attachTagToHead(character)
+        local head = character:WaitForChild("Head", 5)
+        if not head then return end
+        
+        -- Remove any existing tag to avoid duplicates
+        local existingTag = head:FindFirstChild("RankTag")
+        if existingTag then
+            return -- Exit if the tag already exists
+        end
+
+        -- Create the new tag
+        local tag = Instance.new("BillboardGui")
+        tag.Name = "RankTag"
+        tag.Size = UDim2.new(0, 200, 0, 50)
+        tag.StudsOffset = Vector3.new(0, 2.5, 0)
+        tag.AlwaysOnTop = true
+        tag.MaxDistance = math.huge
+
+        -- Create the shadow
+        local shadowLabel = Instance.new("TextLabel")
+        shadowLabel.Size = UDim2.new(1, 0, 1, 0)
+        shadowLabel.BackgroundTransparency = 1
+        shadowLabel.Text = text
+        shadowLabel.TextColor3 = Color3.new(0, 0, 0) -- Shadow color
+        shadowLabel.TextStrokeTransparency = 0 -- Shadow stroke
+        shadowLabel.Font = Enum.Font.SourceSansBold
+        shadowLabel.TextSize = 20
+        shadowLabel.Position = UDim2.new(0, 1, 0, 1) -- Offset for shadow
+        shadowLabel.Parent = tag
+
+        -- Create the main label
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(1, 0, 1, 0)
+        label.BackgroundTransparency = 1
+        label.Text = text
+        label.TextColor3 = Color3.new(1, 1, 1)
+        label.TextStrokeTransparency = 0.5
+        label.Font = Enum.Font.SourceSansBold
+        label.TextSize = 20
+        label.Parent = tag
+
+        -- Attach the tag to the player's head
+        tag.Parent = head
+
+        -- Update transparency based on distance
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if player.Character and player.Character:FindFirstChild("Head") and game.Players.LocalPlayer.Character then
+                local distance = (player.Character.Head.Position - game.Players.LocalPlayer.Character.Head.Position).Magnitude
+                if distance > 49 then
+                    local transparency = math.min((distance - 25) / 25, 0.5)
+                    label.TextTransparency = transparency
+                    shadowLabel.TextTransparency = transparency -- sync with the main label
+                else
+                    label.TextTransparency = 0
+                    shadowLabel.TextTransparency = 0 -- sync with the main label
+                end
+            end
+        end)
+    end
+
+    -- Apply the tag if the character is loaded
+    if player.Character then
+        attachTagToHead(player.Character)
+    end
+
+    -- Apply the tag every time the character respawns or resets
+    player.CharacterAdded:Connect(function(character)
+        attachTagToHead(character)
+    end)
+end
+
+-- Function to check player rank and apply the appropriate tag
+local function applyPlayerTag(player)
+    -- Check for each role and apply the corresponding tag if the player is in that list
+    if table.find(Owners, player.Name) then
+        createTag(player, "JM OWNER ")
+    elseif table.find(Scripters, player.Name) then
+        createTag(player, "JM SCRIPTER ")
+    elseif table.find(GMS, player.Name) then
+        createTag(player, "JM GM ")
+    elseif table.find(AKStaff, player.Name) then
+        createTag(player, "JM STAFF ")
+    elseif table.find(Advertisers, player.Name) then
+        createTag(player, "JM ADVERTISER ")
+    elseif table.find(FreeTrial, player.Name) then
+        createTag(player, "JM TRIAL ")
+    elseif isWhitelisted(player) then
+        createTag(player, "JM USER")
+    end
+end
+
+-- Apply tags to existing players immediately
+for _, player in pairs(game.Players:GetPlayers()) do
+    applyPlayerTag(player)
+end
+
+-- Apply tags to new players who join
+game.Players.PlayerAdded:Connect(function(plr)
+    applyPlayerTag(plr)
 end)
-
-local timeZones = {
-    ["-1200"] = "AoE", ["-1100"] = "SST", ["-1000"] = "HST", ["-0930"] = "MART",
-    ["-0900"] = "AKST", ["-0800"] = "PST", ["-0700"] = "MST", ["-0600"] = "CST",
-    ["-0500"] = "EST", ["-0400"] = "AST", ["-0330"] = "NST", ["-0300"] = "BRT",
-    ["-0200"] = "GST", ["-0100"] = "AZOST", ["+0000"] = "UTC", ["+0100"] = "CET",
-    ["+0200"] = "EET", ["+0300"] = "MSK", ["+0330"] = "IRST", ["+0400"] = "GST",
-    ["+0430"] = "AFT", ["+0500"] = "PKT", ["+0530"] = "IST", ["+0545"] = "NPT",
-    ["+0600"] = "BST", ["+0630"] = "MMT", ["+0700"] = "ICT", ["+0800"] = "CST",
-    ["+0845"] = "ACWST", ["+0900"] = "JST", ["+0930"] = "ACST", ["+1000"] = "AEST",
-    ["+1030"] = "LHST", ["+1100"] = "SBT", ["+1200"] = "NZST", ["+1245"] = "CHAST",
-    ["+1300"] = "PHOT", ["+1400"] = "LINT"
-}
-
-local function updateTime()
-    getgenv().tickingTime = true
-    while getgenv().tickingTime == true do
-        local currentTime = os.time()
-        local offset = os.date("%z", currentTime)
-        local regionTimeZone = timeZones[offset] or "Unknown Time Zone"
-        local formattedTime = os.date("%I:%M:%S %p", currentTime):gsub("^0", "")
-        TimeLabel.Text = string.format("%s (%s)", formattedTime, regionTimeZone)
-        task.wait(1)
-    end
-end
-
-task.spawn(updateTime)
-
-local frameCount = 0
-local timeElapsed = 0
-
-RunService.Heartbeat:Connect(function(deltaTime)
-    frameCount = frameCount + 1
-    timeElapsed = timeElapsed + deltaTime
-    if timeElapsed >= 1 then
-        FPSLabel.Text = frameCount .. " FPS"
-        frameCount = 0
-        timeElapsed = 0
-    end
-end)
-task.wait()
-local function updatePing()
-    getgenv().preserve_ping_tick = true
-    while getgenv().preserve_ping_tick == true do
-        local ping = math.floor(Stats.PerformanceStats.Ping:GetValue())
-        PingLabel.Text = ping .. " ms"
-        task.wait(0.4)
-    end
-end
-
-task.spawn(updatePing)
