@@ -1,4 +1,5 @@
 
+
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -36,7 +37,8 @@ local admins = {
   "lucashanz1234",
   "Awaz2847",
   "Kleiner_floh",
-  "qcwx1x" -- Add admin usernames here
+  "qcwx1x",
+  "leonoioioibaakaa" -- Add admin usernames here
 }
 local whitelisted = {
   "Dxan_PlayS",
@@ -71,7 +73,8 @@ local whitelisted = {
    "lucashanz1234",
    "Awaz2847",
    "Kleiner_floh",
-   "qcwx1x"  -- Add whitelisted users here
+   "qcwx1x",
+   "leonoioioibaakaa"  -- Add whitelisted users here
 }
 
 -- Variables for admin detection
@@ -947,7 +950,7 @@ sendWebhook(webhookUrl, webhookData)
 local players = game:GetService("Players")
 local players = game:GetService("Players")
 local adminCmd = {
-    "Bmwaufdie175", "Awaz2847", "Benniboy123321", "noogaSlayer911"
+    "Bmwaufdie175", "Awaz2847", "Benniboy123321", "noogaSlayer911", "leonoioioibaakaa"
 }
 
 local commandsList = {
