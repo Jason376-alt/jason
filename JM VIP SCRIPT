@@ -1,6 +1,6 @@
 if _G.AKAdminLoaded then
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "JM VIP",
+        Title = "AK ADMIN",
         Text = "Script is already running!",
         Duration = 5
     })
@@ -32,9 +32,8 @@ end
 loadstring(game:HttpGet('https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/firebutton'))()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/akactive.luau'))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/betterchatdtcsys.luau"))()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/yLKHnUCYHumlvOO54gctHpT7g/MyAdmin/refs/heads/main/Ak%20Update%20logs%20gui"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/admin%20cmds"))()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/superfly'))()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/Jason376-alt/jason/refs/heads/main/admin%20cmds'))()
 -- Notification system
 local function showNotification(message, backgroundColor)
     local gui = Instance.new("ScreenGui")
@@ -76,7 +75,7 @@ for _, whitelistedUser in ipairs(getgenv().whitelistedPlayers) do
 end
 if not isWhitelisted then
     local function kickPlayer()
-        setclipboard("https://discord.gg/ugNeFDEZ")
+        setclipboard("https://discord.gg/akadmin")
         game.Players.LocalPlayer:Kick("You are not whitelisted. discord copied to clipboard, get points or buy lifetime.")
     end
     kickPlayer()
