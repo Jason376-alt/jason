@@ -1,6 +1,6 @@
 if _G.AKAdminLoaded then
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "AK ADMIN",
+        Title = "JM VIP",
         Text = "Script is already running!",
         Duration = 5
     })
