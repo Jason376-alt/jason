@@ -16,11 +16,6 @@ if not executed then
     end)
 end
 
-local whitelistedUsers = {
-  "MIB_Jason"   -- Your username
-  "MIB_Jason"  -- Add more usernames as needed
-}
-
 local player = game.Players.LocalPlayer
 
 wait(1) -- Add a short wait
